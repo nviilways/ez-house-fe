@@ -14,6 +14,16 @@ function Home() {
             <button className="btn btn-primary">Register</button>
           </Link>
         </div>
+        <div className="my-profile">
+          <Link to="/my-profile">
+            <button className="btn btn-primary">My Profile</button>
+          </Link>
+        </div>
+        <div className="topup">
+          <Link to="/topup">
+            <button className="btn btn-primary">Top Up</button>
+          </Link>
+        </div>
       </div>
     </div>
   );
