@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import CreateHouse from "./pages/CreateHouse";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import MyProfile from "./pages/MyProfile";
@@ -17,6 +18,7 @@ function App() {
         <Route element={<ProtectedPage />}>
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/topup" element={<TopUp />} />
+          <Route path="/house/create" element={<CreateHouse />} />
         </Route>
       </Routes>
     </div>

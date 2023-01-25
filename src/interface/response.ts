@@ -1,9 +1,7 @@
-import IProfile from "./profile";
-
-interface IResponseProfile {
-    code: number,
-    message: string,
-    data: IProfile,
+interface StandardResponse<T> {
+  code: number;
+  message: string;
+  data: T | null;
 }
 
-export default IResponseProfile;
+export default StandardResponse;

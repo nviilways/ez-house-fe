@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
-import IResponseProfile from "../../interface/response"
+import IProfile from "../../interface/profile";
+import StandardResponse from "../../interface/response";
 
 function MyProfile() {
    const [cookies] = useCookies(['token']);
-   const [data, setData] = useState<IResponseProfile>();
+   const [data, setData] = useState<StandardResponse<IProfile>>();
 
    useEffect(() => {
     fetch(`${process.env.REACT_APP_URL}/me`, {
@@ -20,7 +21,7 @@ function MyProfile() {
         }
 
         return res.json();
-    }).then((data: IResponseProfile) => {
+    }).then((data: StandardResponse<IProfile>) => {
         setData(data);
     })
    }, [cookies])
@@ -30,17 +31,17 @@ function MyProfile() {
         <div>
             <div className="Profile">
                 <div>
-                <p>ID: {data?.data.id}</p>
-                <p>Email: {data?.data.email}</p>
-                <p>Full Name: {data?.data.full_name}</p>
-                <p>Address: {data?.data.address}</p>
-                <p>City Id: {data?.data.city_id}</p>
-                <p>City Name: {data?.data.city.name}</p>
-                <p>Role Id: {data?.data.role_id}</p>
-                <p>Role Name: {data?.data.role.name}</p>
-                <p>Wallet Id: {data?.data.wallet.id}</p>
-                <p>Wallet User Id: {data?.data.wallet.user_id}</p>
-                <p>Wallet Balance: {data?.data.wallet.balance}</p>
+                <p>ID: {data?.data?.id}</p>
+                <p>Email: {data?.data?.email}</p>
+                <p>Full Name: {data?.data?.full_name}</p>
+                <p>Address: {data?.data?.address}</p>
+                <p>City Id: {data?.data?.city_id}</p>
+                <p>City Name: {data?.data?.city.name}</p>
+                <p>Role Id: {data?.data?.role_id}</p>
+                <p>Role Name: {data?.data?.role.name}</p>
+                <p>Wallet Id: {data?.data?.wallet.id}</p>
+                <p>Wallet User Id: {data?.data?.wallet.user_id}</p>
+                <p>Wallet Balance: {data?.data?.wallet.balance}</p>
                 </div>
             </div>
         </div>
