@@ -1,9 +1,30 @@
+import React from "react";
+import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 
 function Home() {
+  const [cookies] = useCookies(['token']);
+
+  const onUpdate = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    await fetch(`${process.env.REACT_APP_URL}/update/role`, {
+      method: "PATCH",
+      headers: {
+        "authorization" : `Bearer ${cookies.token}`
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        alert("cannot update role");
+        return;
+      }
+      alert("Update role successful");
+      return;
+    });
+  };
+
   return (
     <div>
-      <div className="login d-flex flex-column gap-5 justify-content-center align-items-center mt-5">
+      <div className="d-flex flex-column gap-5 justify-content-center align-items-center mt-5">
         <div className="login">
           <Link to="/login">
             <button className="btn btn-primary">Login</button>
@@ -23,6 +44,11 @@ function Home() {
           <Link to="/topup">
             <button className="btn btn-primary">Top Up</button>
           </Link>
+        </div>
+        <div className="topup">
+          <button className="btn btn-primary" onClick={(e) => onUpdate(e)}>
+            Update Role
+          </button>
         </div>
       </div>
     </div>
