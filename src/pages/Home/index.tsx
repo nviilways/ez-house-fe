@@ -55,6 +55,11 @@ function Home() {
             <button className="btn btn-primary">Create House</button>
           </Link>
         </div>
+        <div className="houses">
+          <Link to="/houses">
+            <button className="btn btn-primary">House List</button>
+          </Link>
+        </div>
         <div className="updaterole">
           <button className="btn btn-primary" onClick={(e) => onUpdate(e)}>
             Update Role

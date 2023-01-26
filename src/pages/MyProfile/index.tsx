@@ -29,7 +29,7 @@ function MyProfile() {
 
     return(
         <div>
-            <div className="Profile">
+            <div className="Profile container">
                 <div>
                 <p>ID: {data?.data?.id}</p>
                 <p>Email: {data?.data?.email}</p>
