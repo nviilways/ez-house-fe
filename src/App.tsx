@@ -7,6 +7,7 @@ import MyProfile from "./pages/MyProfile";
 import ProtectedPage from "./pages/ProtectedPage";
 import Register from "./pages/Register";
 import TopUp from "./pages/TopUp";
+import UpdateUser from "./pages/UpdateUser";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route element={<ProtectedPage />}>
           <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/update-profile" element={<UpdateUser />} />
           <Route path="/topup" element={<TopUp />} />
           <Route path="/house/create" element={<CreateHouse />} />
         </Route>

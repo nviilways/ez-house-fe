@@ -40,6 +40,11 @@ function Home() {
             <button className="btn btn-primary">My Profile</button>
           </Link>
         </div>
+        <div className="update-profile">
+          <Link to="/update-profile">
+            <button className="btn btn-primary">Update Profile</button>
+          </Link>
+        </div>
         <div className="topup">
           <Link to="/topup">
             <button className="btn btn-primary">Top Up</button>
