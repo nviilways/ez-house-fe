@@ -16,11 +16,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <Provider store={store}>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
-    </Provider>
+      <Provider store={store}>
+        <CookiesProvider>
+          <App />
+        </CookiesProvider>
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );
