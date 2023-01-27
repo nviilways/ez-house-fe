@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import HouseCard from "../../component/HouseCard"
 import IHouse from "../../interface/house"
 import StandardResponse from "../../interface/response"
 
@@ -30,16 +31,7 @@ function HouseList() {
      <div className="container mt-5">
         <div className="row">
             {data?.data?.map((house) => (
-                <Link to={`/house/${house.id}`} key={house.id} className="col-3">
-                    <div className="card">
-                        <img src={house.house_photos !== undefined ? house.house_photos[0].photo_url : ""} className="card-img-top" alt={house.name + "-thumbnail"} />
-                        <div className="card-body">
-                            <h5 className="card-title">{house.name}</h5>
-                            <p className="card-text">{house.city.name}</p>
-                            <p className="card-subtitle">{house.price}</p>
-                        </div>
-                    </div>
-                </Link>
+                <HouseCard key={house.id} house={house} />
             ))}
         </div>
      </div>   
