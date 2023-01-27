@@ -1,34 +1,34 @@
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import HouseCard from "../../component/HouseCard"
-import IHouse from "../../interface/house"
-import StandardResponse from "../../interface/response"
+import HouseFilter from "../../component/HouseFilter"
+import { useSelector } from "react-redux"
+import { RootState } from "../../store";
+import { useGetHouseByVacancyQuery } from "../../store/slice/House/houseApiSlice"
 
 function HouseList() {
-    const [name, setName] = useState<string>('')
-    const [city, setCity] = useState<string>('')
-    const [sortCol, setSortCol] = useState<string>('')
-    const [sortBy, setSortBy] = useState<string>('')
-    const [checkIn, setCheckIn] = useState<Date>()
-    const [checkOut, setCheckOut] = useState<Date>()
-    const [data, setData] = useState<StandardResponse<IHouse[]>>()
 
-    useEffect(() => {
-     fetch(`${process.env.REACT_APP_URL}/houses`, {
-            method: "GET",
-        }).then((res) => {
-            if(!res.ok) {
-                alert('error fetch')
-            }
+  const filter = useSelector(
+    (state: RootState) => state.filterHouse
+  );
 
-            return res.json()
-        }).then((data: StandardResponse<IHouse[]>) => {
-            setData(data)
-        })
-    }, [name, city, sortCol, sortBy, checkIn, checkOut])
+    const { data, isLoading, isError } = useGetHouseByVacancyQuery(filter)
+
+    if(isLoading) {
+        return (
+            <h1>Loading....</h1>
+        )
+    }
+
+    if(isError) {
+        return (
+            <div>
+                <h1>Error fetching house data</h1>
+            </div>
+        )
+    }
 
     return (
      <div className="container mt-5">
+        <HouseFilter />
         <div className="row">
             {data?.data?.map((house) => (
                 <HouseCard key={house.id} house={house} />
