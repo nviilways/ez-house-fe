@@ -1,6 +1,8 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setIn, setOut } from "../../store/slice/House/houseFilterSlice";
+import Input from "../Input";
 
 function HouseFilter() {
   const today = new Date();
@@ -14,28 +16,26 @@ function HouseFilter() {
 
   return (
     <div className="d-flex mb-5 gap-5">
-      <div>
-        <label className="form-label">Check In</label>
-        <input
-          type="date"
-          min={today.toISOString().split("T")[0]}
-          className="form-control"
-          value={dateIn}
-          name="indate"
-          onChange={(e) => dispatch(setIn(e.target.value))}
-        />
-      </div>
-      <div>
-        <label className="form-label">Check Out</label>
-        <input
-          type="date"
-          min={tommorow.toISOString().split("T")[0]}
-          className="form-control"
-          value={dateOut}
-          name="outdate"
-          onChange={(e) => dispatch(setOut(e.target.value))}
-        />
-      </div>
+      <Input
+        label="Check In"
+        type="date"
+        name="indate"
+        min={today.toISOString().split("T")[0]}
+        handle={(e: React.ChangeEvent<HTMLInputElement>) =>
+          dispatch(setIn(e.target.value))
+        }
+        value={dateIn}
+      />
+      <Input
+        label="Check In"
+        type="date"
+        name="indate"
+        min={tommorow.toISOString().split("T")[0]}
+        handle={(e: React.ChangeEvent<HTMLInputElement>) =>
+          dispatch(setOut(e.target.value))
+        }
+        value={dateOut}
+      />
     </div>
   );
 }
