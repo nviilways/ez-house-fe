@@ -12,7 +12,7 @@ function HouseCard(props: HouseProps) {
   };
 
   return (
-    <Link to={`/house/${props.house.id}`} className="col-3">
+    <Link to={`/house/${props.house.id}`} className="col">
       <div className="card">
         <img
           src={

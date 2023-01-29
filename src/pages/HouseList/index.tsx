@@ -29,7 +29,7 @@ function HouseList() {
     return (
      <div className="container mt-5">
         <HouseFilter />
-        <div className="row">
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
             {data?.data?.data?.map((house) => (
                 <HouseCard key={house.id} house={house} />
             ))}

@@ -5,7 +5,7 @@ function NavBar() {
     <div className="container">
       <nav className="navbar navbar-expand-lg">
         <div>
-            <h3 className="navbar-brand">
+            <h3 className="navbar-brand ms-2">
                 Ez House
             </h3>
         </div>
@@ -28,7 +28,7 @@ function NavBar() {
                 <li className="nav-item me-5">
                     <NavLink to="/">Home</NavLink>
                 </li>
-                <li className="nav-item me-5">
+                <li className="nav-item me-3">
                     <NavLink to="/">Home</NavLink>
                 </li>
             </ul>

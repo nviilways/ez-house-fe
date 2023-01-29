@@ -77,7 +77,7 @@ function HouseFilter() {
   }
 
   return (
-    <div className="d-flex mb-5 gap-4">
+    <div className="d-flex flex-column flex-md-row mb-5 gap-4">
       <Input
         label="Check In"
         type="date"
