@@ -39,9 +39,7 @@ function Login() {
       });
       navigate("/");
     }
-  })
-
-
+  }, [data?.data?.token, isSuccess, navigate, setCookies])
 
   return (
     <div className="container">

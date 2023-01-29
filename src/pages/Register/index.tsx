@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../../store/slice/User/userApiSlice";
 
 function Register() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [city, setCity] = useState<number>();
 
+  const [registerUser, {isSuccess, error}] = useRegisterMutation()
   const navigate = useNavigate();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,25 +24,21 @@ function Register() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await fetch("http://localhost:8080/api/v1/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        city_id: city,
-      }),
-    }).then((res) => {
-      if (!res.ok) {
-        alert("Failed to create account");
-      }
-      return res.json();
-    });
 
-    navigate("/login");
+    if(email && password && city) {
+      await registerUser({email, password, city_id: city})
+    }
+    else {
+      alert("Please fill the form data")
+    }
   };
+
+  useEffect(() => {
+    if(isSuccess) {
+      navigate("/login");
+    }
+  })
+  
 
   return (
     <div>
