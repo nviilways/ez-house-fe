@@ -18,8 +18,8 @@ const initialState: IHouseFilter = {
   dateIn: today.toISOString().split("T")[0],
   dateOut: tommorow.toISOString().split("T")[0],
   guest: 1,
-  sortCol: "",
-  sortBy: "",
+  sortCol: "name",
+  sortBy: "asc",
   name: "",
   city: "",
 };
