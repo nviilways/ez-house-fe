@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../store/slice/User/userApiSlice";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [,setCookies] = useCookies(['token'])
+  const [loginUser, {data, isSuccess}] = useLoginMutation()
 
   const navigate = useNavigate();
 
@@ -19,29 +21,27 @@ function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/api/v1/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    }).then((res) => {
-      if (!res.ok) {
-        alert("Wrong Email / Password");
-      }
-      return res.json();
-    });
 
-    setCookies("token", response.data.token, {
-      path: "/",
-      maxAge: 2 * 3600,
-    });
+    if(email && password) {
+      await loginUser({email, password})
+    }
+    else{
+      alert("Please fill email and password")
+    }
 
-    navigate("/");
   };
+
+  useEffect(() => {
+    if(isSuccess) {
+      setCookies("token", data?.data?.token, {
+        path: "/",
+        maxAge: 2 * 3600,
+      });
+      navigate("/");
+    }
+  })
+
+
 
   return (
     <div className="container">

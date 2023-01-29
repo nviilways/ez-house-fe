@@ -13,7 +13,6 @@ interface IProfile {
     role: IRole,
     wallet: IWallet
     
-
 }
 
 export default IProfile
