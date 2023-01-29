@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
+import "./App.scss";
+import NavBar from "./component/NavBar";
 import CreateHouse from "./pages/CreateHouse";
 import Home from "./pages/Home";
 import HouseList from "./pages/HouseList";
@@ -15,16 +16,18 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route index path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/houses" element={<HouseList />} />
-        <Route path="/house/:id" element={<HousePage />} />
-        <Route element={<ProtectedPage />}>
-          <Route path="/my-profile" element={<MyProfile />} />
-          <Route path="/update-profile" element={<UpdateUser />} />
-          <Route path="/topup" element={<TopUp />} />
-          <Route path="/house/create" element={<CreateHouse />} />
+        <Route element={<NavBar />}>
+          <Route index path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/houses" element={<HouseList />} />
+          <Route path="/house/:id" element={<HousePage />} />
+          <Route element={<ProtectedPage />}>
+            <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/update-profile" element={<UpdateUser />} />
+            <Route path="/topup" element={<TopUp />} />
+            <Route path="/house/create" element={<CreateHouse />} />
+          </Route>
         </Route>
       </Routes>
     </div>
