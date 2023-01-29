@@ -30,7 +30,7 @@ function HouseList() {
      <div className="container mt-5">
         <HouseFilter />
         <div className="row">
-            {data?.data?.map((house) => (
+            {data?.data?.data?.map((house) => (
                 <HouseCard key={house.id} house={house} />
             ))}
         </div>
