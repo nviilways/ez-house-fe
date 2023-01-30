@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import HouseProps from "../../interface/props/house";
 import "./card.scss"
+import placeholderImg from "../../placeholder.png"
 
 function HouseCard(props: HouseProps) {
 
@@ -18,7 +19,7 @@ function HouseCard(props: HouseProps) {
           src={
             props.house.house_photos !== undefined
               ? props.house.house_photos[0].photo_url
-              : ""
+              : placeholderImg
           }
           className="card-img-top img img-fluid"
           alt={props.house.name + "-thumbnail"}

@@ -81,6 +81,7 @@ function HouseFilter() {
       <Input
         label="Check In"
         type="date"
+        id="indate"
         name="indate"
         min={today.toISOString().split("T")[0]}
         handle={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -91,6 +92,7 @@ function HouseFilter() {
       <Input
         label="Check Out"
         type="date"
+        id="outdate"
         name="outdate"
         min={tommorow.toISOString().split("T")[0]}
         handle={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -110,6 +112,7 @@ function HouseFilter() {
       <Input
         label="Name"
         type="text"
+        id="name"
         name="name"
         handle={(e) => handleName(e)}
         value={filterName}
@@ -117,6 +120,7 @@ function HouseFilter() {
       <Input
         label="City"
         type="text"
+        id="city"
         name="city"
         handle={(e) => handleCity(e)}
         value={filterCity}

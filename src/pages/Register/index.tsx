@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Input from "../../component/Input";
+import Select from "../../component/Select";
+import SelectConfig from "../../interface/select";
+import { useGetAllCityQuery } from "../../store/slice/City/cityApiSlice";
 import { useRegisterMutation } from "../../store/slice/User/userApiSlice";
 
 function Register() {
@@ -7,7 +11,8 @@ function Register() {
   const [password, setPassword] = useState<string>("");
   const [city, setCity] = useState<number>();
 
-  const [registerUser, {isSuccess, error}] = useRegisterMutation()
+  const { data, isLoading, isError } = useGetAllCityQuery();
+  const [registerUser, { isSuccess }] = useRegisterMutation();
   const navigate = useNavigate();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,58 +30,55 @@ function Register() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(email && password && city) {
-      await registerUser({email, password, city_id: city})
-    }
-    else {
-      alert("Please fill the form data")
+    if (email && password && city) {
+      await registerUser({ email, password, city_id: city });
+    } else {
+      alert("Please fill the form data");
     }
   };
 
   useEffect(() => {
-    if(isSuccess) {
+    if (isSuccess) {
       navigate("/login");
     }
-  })
-  
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error Fetching City List</div>;
+  }
+
+  const options: SelectConfig[] = data!.data!.map((city) => {
+    return { label: `${city.name}`, value: `${city.id}` };
+  });
 
   return (
     <div>
       <div className="container">
         <form className="mt-5" onSubmit={(e) => handleSubmit(e)}>
-          <div className="mb-3">
-            <label className="form-label">Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="form-control"
-              placeholder="email"
-              onChange={(e) => handleEmail(e)}
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              className="form-control"
-              placeholder="password"
-              onChange={(e) => handlePassword(e)}
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">City</label>
-            <input
-              type="number"
-              name="city"
-              id="city"
-              className="form-control"
-              placeholder="city"
-              onChange={(e) => handleCity(e)}
-            />
-          </div>
+          <Input
+            label="Email"
+            type="email"
+            id="email"
+            name="email"
+            handle={(e) => handleEmail(e)}
+          />
+          <Input
+            label="Password"
+            type="password"
+            id="password"
+            name="password"
+            handle={(e) => handlePassword(e)}
+          />
+          <Select
+            name="city"
+            label="City"
+            config={options}
+            handle={(e) => handleCity(e)}
+          />
           <button type="submit" className="form-control btn btn-primary">
             Register
           </button>

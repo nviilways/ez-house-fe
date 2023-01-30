@@ -3,7 +3,7 @@ import SelectConfig from "../select"
 interface SelectProps {
     name: string
     label: string
-    value: string | number
+    value?: string | number
     handle?: (args: any) => void
     config: SelectConfig[]
 }
