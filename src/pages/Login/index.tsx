@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import Button from "../../component/Button";
+import Input from "../../component/Input";
 import { useLoginMutation } from "../../store/slice/User/userApiSlice";
 
 function Login() {
@@ -44,31 +46,9 @@ function Login() {
   return (
     <div className="container">
       <form className="mt-5" onSubmit={(e) => handleSubmit(e)}>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            className="form-control"
-            placeholder="email"
-            onChange={(e) => handleEmail(e)}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            className="form-control"
-            placeholder="password"
-            onChange={(e) => handlePassword(e)}
-          />
-        </div>
-        <button type="submit" className="form-control btn btn-primary">
-          Login
-        </button>
+        <Input label="Email" type="email" name="email" id="email" handle={(e) => handleEmail(e)} />
+        <Input label="Password" type="password" name="password" id="password" handle={(e) => handlePassword(e)} />
+        <Button type="submit" label="Login" />
       </form>
     </div>
   );
