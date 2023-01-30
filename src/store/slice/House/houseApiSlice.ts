@@ -12,9 +12,15 @@ export const houseApiSlice = apiSlice.injectEndpoints({
     >({
       query: (filter) =>
         `/houses?checkin=${filter.dateIn}&checkout=${filter.dateOut}&sort=${filter.sortCol}&sortby=${filter.sortBy}&guest=${filter.guest}&searchname=${filter.name}&searchcity=${filter.city}`,
-      providesTags: ["House"],
+      providesTags: [{type: "House", id:"List"}],
     }),
+
+    getHouseById: builder.query<StandardResponse<IHouse>, number>({
+      query: (id) => `/houses/${id}`,
+      providesTags: (result, error, id) => [{type: "House", id}],
+      transformErrorResponse: (response, meta, arg) => response.data
+    })
   }),
 });
 
-export const { useGetHouseByVacancyQuery } = houseApiSlice;
+export const { useGetHouseByVacancyQuery, useGetHouseByIdQuery } = houseApiSlice;

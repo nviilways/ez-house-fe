@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
-import IHouse from "../../interface/house";
-import StandardResponse from "../../interface/response";
+import { useGetHouseByIdQuery } from "../../store/slice/House/houseApiSlice";
 
 function HousePage() {
   const param = useParams();
+  const id =  parseInt(param.id!)
   const [cookies] = useCookies(["token"]);
 
   const [name, setName] = useState<string>("");
@@ -13,7 +13,7 @@ function HousePage() {
   const [desc, setDesc] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [guest, setGuest] = useState<string>("");
-  const [data, setData] = useState<StandardResponse<IHouse>>();
+  const {data, isError} = useGetHouseByIdQuery(id)
 
   
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,22 +79,11 @@ function HousePage() {
       });
     };
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_URL}/houses/${param.id}`, {
-      method: "GET",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          alert("failed to fetch house");
-          return;
-        }
-
-        return res.json();
-      })
-      .then((data: StandardResponse<IHouse>) => {
-        setData(data);
-      });
-  }, [param.id]);
+  if(isError) {
+    return (
+      <div>Error fetching house data...</div>
+    )
+  }
 
   return (
     <div className="container d-flex flex-column gap-3">
