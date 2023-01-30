@@ -3,7 +3,7 @@ import SelectProps from "../../interface/props/select";
 function Select(props: SelectProps) {
   return (
     <div>
-      <label className="form-label">{props.label}</label>
+      <label className="form-label mt-3">{props.label}</label>
       <select
         className="form-select"
         name={props.name}

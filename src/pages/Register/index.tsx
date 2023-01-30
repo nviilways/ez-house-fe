@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../../component/Button";
 import Input from "../../component/Input";
 import Select from "../../component/Select";
 import SelectConfig from "../../interface/select";
@@ -56,8 +57,7 @@ function Register() {
   });
 
   return (
-    <div>
-      <div className="container">
+      <div className="container h-100 d-flex justify-content-center align-items-center">
         <form className="mt-5" onSubmit={(e) => handleSubmit(e)}>
           <Input
             label="Email"
@@ -79,12 +79,9 @@ function Register() {
             config={options}
             handle={(e) => handleCity(e)}
           />
-          <button type="submit" className="form-control btn btn-primary">
-            Register
-          </button>
+          <Button type="submit" label="Register" />
         </form>
       </div>
-    </div>
   );
 }
 

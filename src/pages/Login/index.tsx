@@ -44,7 +44,7 @@ function Login() {
   }, [data?.data?.token, isSuccess, navigate, setCookies])
 
   return (
-    <div className="container">
+    <div className="container login d-flex align-items-center justify-content-center">
       <form className="mt-5" onSubmit={(e) => handleSubmit(e)}>
         <Input label="Email" type="email" name="email" id="email" handle={(e) => handleEmail(e)} />
         <Input label="Password" type="password" name="password" id="password" handle={(e) => handlePassword(e)} />

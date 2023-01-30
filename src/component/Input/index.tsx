@@ -3,7 +3,7 @@ import InputConfig from "../../interface/input";
 function Input(props: InputConfig) {
   return (
     <div>
-      <label className="form-label" htmlFor={props.id}>{props.label}</label>
+      <label className="form-label mt-3" htmlFor={props.id}>{props.label}</label>
       <input
         type={props.type}
         min={props.min}
