@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
+import HouseImage from "../../component/HouseImage";
 import HouseTitle from "../../component/HouseTitle";
 import { useGetHouseByIdQuery } from "../../store/slice/House/houseApiSlice";
 
@@ -89,7 +90,7 @@ function HousePage() {
   return (
     <div className="container d-flex flex-column gap-3">
       <HouseTitle house={data?.data!} />
-
+      <HouseImage photos={data?.data?.house_photos} />
       <div>
         <button className="btn btn-danger" onClick={(e) => handleDelete(e)}>
           Delete House

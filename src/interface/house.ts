@@ -8,7 +8,7 @@ interface IHouse {
     description: string
     city: ICity
     max_guest: number
-    house_photos: IPhoto[]
+    house_photos: IPhoto[] | undefined
 }
 
 export default IHouse
