@@ -1,14 +1,29 @@
-import { NavLink, Outlet } from "react-router-dom";
-import "./navbar.scss"
+import { useCookies } from "react-cookie";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import Favicon from "../../assets/icon/Favicon";
+import { useLogoutMutation } from "../../store/slice/User/userApiSlice";
+import "./navbar.scss";
 
 function NavBar() {
+  const [cookies, , removeCookies] = useCookies(["token"]);
+  const [logout] = useLogoutMutation(cookies.token);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout(cookies.token);
+    removeCookies("token");
+    navigate("login");
+  };
+
   return (
     <div className="container">
-      <nav className="navbar navbar-expand-lg">
+      <nav className="navbar bg-light navbar-expand-lg">
         <div>
-            <h3 className="navbar-brand ms-2">
-                Ez House
-            </h3>
+          <h3 className="navbar-brand ms-2">
+            <span className="me-2 fst-italic">E</span>
+            <Favicon class="small" />
+            <span className="ms-2 fst-italic">Z</span>
+          </h3>
         </div>
         <button
           className="navbar-toggler"
@@ -22,17 +37,28 @@ function NavBar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-                <li className="nav-item me-5">
-                    <NavLink to="/">Home</NavLink>
-                </li>
-                <li className="nav-item me-5">
-                    <NavLink to="/houses">House Listing</NavLink>
-                </li>
-                <li className="nav-item me-3">
-                    <NavLink to="/login">Login</NavLink>
-                </li>
-            </ul>
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item me-5">
+              <NavLink to="/">Home</NavLink>
+            </li>
+            <li className="nav-item me-5">
+              <NavLink to="/houses">House Listing</NavLink>
+            </li>
+            <li className="nav-item me-3">
+              <NavLink
+                className={`${cookies.token !== undefined ? "d-none" : ""}`}
+                to="/login"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                className={`${cookies.token !== undefined ? "" : "d-none"}`}
+                to="/logout" onClick={handleLogout}
+              >
+                Logout
+              </NavLink>
+            </li>
+          </ul>
         </div>
       </nav>
       <Outlet />

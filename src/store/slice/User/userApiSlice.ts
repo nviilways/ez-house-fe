@@ -21,6 +21,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: register,
       }),
     }),
+    logout: builder.mutation<void, string>({
+      query: (token) => ({
+        url: "/logout",
+        method: "POST",
+        headers: {
+          "Authorization" : `Bearer ${token}`
+        }
+      })
+    }),
     me: builder.query<StandardResponse<IProfile>, string>({
       query: (token) => ({
         url: "/me",
@@ -51,4 +60,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useMeQuery, useGetTransactionQuery, useGetHistoryQuery } = userApiSlice;
+export const { useLoginMutation, useRegisterMutation, useMeQuery, useGetTransactionQuery, useGetHistoryQuery, useLogoutMutation } = userApiSlice;

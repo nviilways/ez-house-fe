@@ -29,7 +29,7 @@ function MyProfile() {
   };
 
   useEffect(() => {}, [isActive]);
-  
+
   if (isLoading) {
     return (
       <div className="spinner-border">
@@ -44,8 +44,8 @@ function MyProfile() {
 
   return (
     <div>
-      <div className="container">
-        <div className="d-flex justify-content-around">
+      <div className="container mt-5">
+        <div className="content d-flex flex-column flex-md-row justify-content-around">
           <div className="sidebar">
             <div className="d-flex flex-column">
               <Button type="button" label="My Profile" handle={handleProfile} />
@@ -74,17 +74,17 @@ function MyProfile() {
               <table className="table">
                 <thead>
                   <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Type</th>
                     <th scope="col">Balance</th>
+                    <th scope="col">Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {txData?.data?.map((tx) => (
                     <tr key={tx.id}>
-                      <td>{tx.id}</td>
                       <td>{tx.transaction_type.name}</td>
                       <td>{tx.balance}</td>
+                      <td>{DateFormatter(tx.created_at)}</td>
                     </tr>
                   ))}
                 </tbody>

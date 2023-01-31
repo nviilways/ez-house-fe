@@ -4,3 +4,14 @@ ul {
         list-style-type: none;
     }
 }
+
+.main-content {
+    border-left: 1rem 1rem 1rem black;
+    max-width: 50rem;
+    max-height: 50rem;
+}
+
+.content {
+    max-height: 100rem;
+    max-width: 100rem;
+}
