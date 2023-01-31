@@ -27,10 +27,10 @@ function NavBar() {
                     <NavLink to="/">Home</NavLink>
                 </li>
                 <li className="nav-item me-5">
-                    <NavLink to="/">Home</NavLink>
+                    <NavLink to="/houses">House Listing</NavLink>
                 </li>
                 <li className="nav-item me-3">
-                    <NavLink to="/">Home</NavLink>
+                    <NavLink to="/login">Login</NavLink>
                 </li>
             </ul>
         </div>
