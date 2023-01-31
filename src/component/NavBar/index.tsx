@@ -41,7 +41,7 @@ function NavBar() {
             <li className="nav-item me-5">
               <NavLink to="/">Home</NavLink>
             </li>
-            <li className="nav-item me-5">
+            <li className="nav-item me-3">
               <NavLink to="/houses">House Listing</NavLink>
             </li>
             <li className="nav-item me-3">
@@ -51,12 +51,38 @@ function NavBar() {
               >
                 Login
               </NavLink>
+            </li>
+            <li className="nav-item me-3 dropdown">
               <NavLink
-                className={`${cookies.token !== undefined ? "" : "d-none"}`}
-                to="/logout" onClick={handleLogout}
+                className="nav-link dropdown-toggle"
+                to="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
-                Logout
+                User
               </NavLink>
+              <ul className="dropdown-menu">
+                <li>
+                  <NavLink className="dropdown-item" to="/my-profile">
+                    My Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+                <li>
+                  <NavLink
+                    className={`dropdown-item ${
+                      cookies.token !== undefined ? "" : "d-none"
+                    }`}
+                    to="/logout"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>

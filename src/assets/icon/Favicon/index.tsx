@@ -11,7 +11,7 @@ function Favicon(props: IconProps) {
       width="800px"
       height="800px"
       viewBox="0 0 34 32"
-      enable-background="new 0 0 34 32"
+      enableBackground="new 0 0 34 32"
       xmlSpace="preserve"
     >
       <g>
