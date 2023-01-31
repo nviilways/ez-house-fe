@@ -14,7 +14,7 @@ function HouseCard(props: HouseProps) {
 
   return (
     <Link to={`/house/${props.house.id}`} className="col">
-      <div className="card">
+      <div className="card mb-3">
         <img
           src={
             props.house.house_photos !== undefined

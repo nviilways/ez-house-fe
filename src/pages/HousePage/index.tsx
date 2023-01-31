@@ -4,10 +4,11 @@ import { useParams } from "react-router-dom";
 import HouseImage from "../../component/HouseImage";
 import HouseTitle from "../../component/HouseTitle";
 import { useGetHouseByIdQuery } from "../../store/slice/House/houseApiSlice";
+import "./housepage.scss"
 
 function HousePage() {
   const param = useParams();
-  const id =  parseInt(param.id!)
+  const id = parseInt(param.id!);
   const [cookies] = useCookies(["token"]);
 
   const [name, setName] = useState<string>("");
@@ -15,14 +16,13 @@ function HousePage() {
   const [desc, setDesc] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [guest, setGuest] = useState<string>("");
-  const {data, isError} = useGetHouseByIdQuery(id)
+  const { data, isError } = useGetHouseByIdQuery(id);
 
-  
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setName(e.target.value);
-    };
+    setName(e.target.value);
+  };
 
-    const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrice(e.target.value);
   };
 
@@ -35,62 +35,70 @@ function HousePage() {
   };
 
   const handleGuest = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setGuest(e.target.value);
-    };
+    setGuest(e.target.value);
+  };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {   
-        e.preventDefault()
-        const newForm = new FormData();
-    
-        newForm.append("name", name);
-        newForm.append("price", price);
-        newForm.append("description", desc);
-        newForm.append("city_id", city);
-        newForm.append("max_guest", guest);
-    
-        await fetch(`${process.env.REACT_APP_URL}/houses/${param.id}`, {
-            method: "PATCH",
-            headers: {
-                "Authorization" : `Bearer ${cookies.token}`
-            },
-            body: newForm
-        }).then((res) => {
-            if(res.ok) {
-                alert(res.statusText)
-            }
-        }).catch((err) => {
-            alert(err)
-        })
-    
-      };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newForm = new FormData();
 
-    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      fetch(`${process.env.REACT_APP_URL}/houses/${param.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      }).then((res) => {
-        if (!res.ok) {
+    newForm.append("name", name);
+    newForm.append("price", price);
+    newForm.append("description", desc);
+    newForm.append("city_id", city);
+    newForm.append("max_guest", guest);
+
+    await fetch(`${process.env.REACT_APP_URL}/houses/${param.id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+      body: newForm,
+    })
+      .then((res) => {
+        if (res.ok) {
           alert(res.statusText);
-          return;
         }
-  
-        alert("Delete Successfull");
+      })
+      .catch((err) => {
+        alert(err);
       });
-    };
+  };
 
-  if(isError) {
-    return (
-      <div>Error fetching house data...</div>
-    )
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    fetch(`${process.env.REACT_APP_URL}/houses/${param.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        alert(res.statusText);
+        return;
+      }
+
+      alert("Delete Successfull");
+    });
+  };
+
+  if (isError) {
+    return <div>Error fetching house data...</div>;
   }
 
   return (
     <div className="container d-flex flex-column gap-3">
       <HouseTitle house={data?.data!} />
       <HouseImage photos={data?.data?.house_photos} />
+      <hr />
+      <div className="d-flex flex-column flex-md-row justify-content-evenly">
+        <div>
+          <p className="text-desc">{data?.data?.description}</p>
+        </div>
+        <div>
+          <p>RESERVATION</p>
+        </div>
+      </div>
       <div>
         <button className="btn btn-danger" onClick={(e) => handleDelete(e)}>
           Delete House

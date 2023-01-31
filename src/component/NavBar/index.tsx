@@ -4,7 +4,7 @@ import "./navbar.scss"
 function NavBar() {
   return (
     <div className="container">
-      <nav className="navbar fixed-top navbar-expand-lg">
+      <nav className="navbar navbar-expand-lg">
         <div>
             <h3 className="navbar-brand ms-2">
                 Ez House

@@ -14,7 +14,7 @@ import UpdateUser from "./pages/UpdateUser";
 
 function App() {
   return (
-    <div className="pt-5">
+    <div>
       <Routes>
         <Route element={<NavBar />}>
           <Route index path="/" element={<Home />} />
