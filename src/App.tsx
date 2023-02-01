@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import TopUp from "./pages/TopUp";
 import UpdateUser from "./pages/UpdateUser";
 import { ToastContainer } from "react-toastify";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/topup" element={<TopUp />} />
             <Route path="/house/create" element={<CreateHouse />} />
           </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
       <ToastContainer />

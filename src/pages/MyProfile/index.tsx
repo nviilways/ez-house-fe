@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Button from "../../component/Button";
 import Input from "../../component/Input";
 import Select from "../../component/Select";
+import Spinner from "../../component/Spinner";
 import SelectConfig from "../../interface/select";
 import { useGetAllCityQuery } from "../../store/slice/City/cityApiSlice";
 import {
@@ -23,7 +24,7 @@ function MyProfile() {
   const [city, setCity] = useState<number>(0);
 
   const {
-    data: profileData,
+    data,
     isError: profileError,
     isLoading: profileLoading,
   } = useMeQuery(cookies.token);
@@ -106,11 +107,7 @@ function MyProfile() {
   }, [isActive, updateError, updateSuccess]);
 
   if (profileLoading) {
-    return (
-      <div className="spinner-border">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    );
+    <Spinner />
   }
 
   if (profileError) {
@@ -118,11 +115,7 @@ function MyProfile() {
   }
 
   if (cityLoading) {
-    return (
-      <div className="spinner-border">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    );
+    <Spinner />
   }
 
   if (cityError || !cityData?.data) {
@@ -160,14 +153,14 @@ function MyProfile() {
                   name="email"
                   id="email"
                   disabled
-                  defaultvalue={profileData?.data?.email}
+                  defaultvalue={data?.data?.email}
                 />
                 <Input
                   type="text"
                   label="Full Name"
                   name="full-name"
                   id="full-name"
-                  defaultvalue={profileData?.data?.full_name}
+                  defaultvalue={data?.data?.full_name}
                   handle={(e) => handleName(e)}
                 />
                 <Input
@@ -175,7 +168,7 @@ function MyProfile() {
                   label="Address"
                   name="address"
                   id="address"
-                  defaultvalue={profileData?.data?.address}
+                  defaultvalue={data?.data?.address}
                   handle={(e) => handleAddress(e)}
                 />
                 <Select
@@ -183,7 +176,7 @@ function MyProfile() {
                   label="City"
                   config={options}
                   handle={(e) => handleCity(e)}
-                  defaultvalue={profileData?.data?.city_id}
+                  defaultvalue={data?.data?.city_id}
                 />
                 <Input
                   type="text"
@@ -191,7 +184,7 @@ function MyProfile() {
                   name="role"
                   id="role"
                   disabled
-                  defaultvalue={profileData?.data?.role.name}
+                  defaultvalue={data?.data?.role.name}
                 />
                 <Button label="Update Profile" type="submit" />
               </div>

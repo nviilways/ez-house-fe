@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import HouseImage from "../../component/HouseImage";
 import HouseTitle from "../../component/HouseTitle";
 import ReservationCard from "../../component/ReservationCard";
+import Spinner from "../../component/Spinner";
+import IHouse from "../../interface/house";
 import { useGetHouseByIdQuery } from "../../store/slice/House/houseApiSlice";
 import "./housepage.scss"
 
@@ -17,7 +19,7 @@ function HousePage() {
   const [desc, setDesc] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [guest, setGuest] = useState<string>("");
-  const { data, isError } = useGetHouseByIdQuery(id);
+  const { data, isLoading, isError } = useGetHouseByIdQuery(id);
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -66,44 +68,26 @@ function HousePage() {
       });
   };
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    fetch(`${process.env.REACT_APP_URL}/houses/${param.id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-    }).then((res) => {
-      if (!res.ok) {
-        alert(res.statusText);
-        return;
-      }
-
-      alert("Delete Successfull");
-    });
-  };
+  if (isLoading) {
+    <Spinner />
+  }
 
   if (isError) {
     return <div>Error fetching house data...</div>;
   }
 
   return (
-    <div className="container d-flex flex-column gap-3">
-      <HouseTitle house={data?.data!} />
+    <div className="container house-box pt-3 d-flex flex-column gap-3">
+      <HouseTitle house={data?.data as IHouse} />
       <HouseImage photos={data?.data?.house_photos} />
       <hr />
-      <div className="d-flex flex-column flex-md-row justify-content-evenly">
+      <div className="d-flex flex-column flex-md-row gap-5 justify-content-between">
         <div>
           <p className="text-desc">{data?.data?.description}</p>
         </div>
         <div>
-          <ReservationCard />
+          <ReservationCard price={data?.data?.price as number}/>
         </div>
-      </div>
-      <div>
-        <button className="btn btn-danger" onClick={(e) => handleDelete(e)}>
-          Delete House
-        </button>
       </div>
       <div className="accordion" id="accordionParent">
         <div className="accordion-item">
