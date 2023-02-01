@@ -8,6 +8,8 @@ export interface IHouseFilter {
   sortBy: string;
   name: string;
   city: string;
+  page: number;
+  limit: number;
 }
 
 const today = new Date();
@@ -22,6 +24,8 @@ const initialState: IHouseFilter = {
   sortBy: "asc",
   name: "",
   city: "",
+  page: 1,
+  limit: 10,
 };
 
 export const filterSlice = createSlice({
@@ -49,9 +53,15 @@ export const filterSlice = createSlice({
     setCity: (state, action) => {
       return { ...state, city: action.payload };
     },
+    setPage: (state, action) => {
+      return { ...state, page: action.payload };
+    },
+    setLimit: (state, action) => {
+      return { ...state, limit: action.payload };
+    },
   },
 });
 
-export const { setIn, setOut, setGuest, setCol, setBy, setName, setCity } =
+export const { setIn, setOut, setGuest, setCol, setBy, setName, setCity, setPage, setLimit } =
   filterSlice.actions;
 export default filterSlice.reducer;

@@ -3,6 +3,8 @@ import HouseFilter from "../../component/HouseFilter"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store";
 import { useGetHouseByVacancyQuery } from "../../store/slice/House/houseApiSlice"
+import Pagination from "../../component/Pagination";
+import Spinner from "../../component/Spinner";
 
 function HouseList() {
 
@@ -14,7 +16,7 @@ function HouseList() {
 
     if(isLoading) {
         return (
-            <h1>Loading....</h1>
+            <Spinner />
         )
     }
 
@@ -33,6 +35,9 @@ function HouseList() {
             {data?.data?.data?.map((house) => (
                 <HouseCard key={house.id} house={house} />
             ))}
+        </div>
+        <div className="d-flex justify-content-center align-items-center mt-5">
+            <Pagination currentPage={filter.page} totalPage={Math.ceil(data?.data?.count as number / filter.limit)} />
         </div>
      </div>   
     )
