@@ -7,6 +7,7 @@ function Select(props: SelectProps) {
       <select
         className="form-select"
         name={props.name}
+        defaultValue={props.defaultvalue}
         value={props.value}
         onChange={props.handle}
       >

@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import HouseImage from "../../component/HouseImage";
 import HouseTitle from "../../component/HouseTitle";
+import ReservationCard from "../../component/ReservationCard";
 import { useGetHouseByIdQuery } from "../../store/slice/House/houseApiSlice";
 import "./housepage.scss"
 
@@ -96,7 +97,7 @@ function HousePage() {
           <p className="text-desc">{data?.data?.description}</p>
         </div>
         <div>
-          <p>RESERVATION</p>
+          <ReservationCard />
         </div>
       </div>
       <div>

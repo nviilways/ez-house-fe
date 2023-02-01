@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./slice/api/apiSlice";
 import filterReducer from "./slice/House/houseFilterSlice";
+import userReducer from "./slice/House/houseFilterSlice";
 
 export const store = configureStore({
   reducer: {
+    userReducer: userReducer,
     filterHouse: filterReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },

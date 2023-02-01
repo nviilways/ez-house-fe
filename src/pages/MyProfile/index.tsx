@@ -58,24 +58,10 @@ function MyProfile() {
         input: { full_name: name, address: address, city_id: city },
         token: cookies.token,
       });
-    }
-
-    if (updateError) {
-      toast.error("Failed to update profile");
-    }
-
-    if (updateSuccess) {
-      toast("Profile Updated", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+    } else {
+      toast.error("Please fill the form to update", {
+        position: toast.POSITION.TOP_CENTER,
       });
-      alert("Noice")
     }
   };
 
@@ -91,7 +77,33 @@ function MyProfile() {
     setActive("history");
   };
 
-  useEffect(() => {}, [isActive]);
+  useEffect(() => {
+    if (updateError) {
+      toast.error("Failed to update profile", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
+    if (updateSuccess) {
+      toast.success("Profile Updated", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }, [isActive, updateError, updateSuccess]);
 
   if (profileLoading) {
     return (
@@ -106,11 +118,11 @@ function MyProfile() {
   }
 
   if (cityLoading) {
-    return(
+    return (
       <div className="spinner-border">
         <span className="visually-hidden">Loading...</span>
       </div>
-    )
+    );
   }
 
   if (cityError || !cityData?.data) {
@@ -171,7 +183,7 @@ function MyProfile() {
                   label="City"
                   config={options}
                   handle={(e) => handleCity(e)}
-                  value={profileData?.data?.city_id}
+                  defaultvalue={profileData?.data?.city_id}
                 />
                 <Input
                   type="text"
