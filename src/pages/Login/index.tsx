@@ -37,7 +37,7 @@ function Login() {
     if(isSuccess) {
       setCookies("token", data?.data?.token, {
         path: "/",
-        maxAge: 2 * 3600,
+        maxAge: 5 * 3600,
       });
       navigate("/");
     }
