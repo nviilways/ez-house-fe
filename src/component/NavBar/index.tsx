@@ -46,7 +46,7 @@ function NavBar() {
             </li>
             <li className="nav-item me-3">
               <NavLink
-                className={`${cookies.token !== undefined ? "d-none" : ""}`}
+                className={`ms-4 ${cookies.token !== undefined ? "d-none" : ""}`}
                 to="/login"
               >
                 Login
@@ -54,7 +54,7 @@ function NavBar() {
             </li>
             <li className="nav-item me-3 dropdown">
               <NavLink
-                className="nav-link dropdown-toggle"
+                className={`nav-link dropdown-toggle ${cookies.token === undefined ? "d-none" : ""}`}
                 to="#"
                 role="button"
                 data-bs-toggle="dropdown"
@@ -62,7 +62,7 @@ function NavBar() {
               >
                 User
               </NavLink>
-              <ul className="dropdown-menu">
+              <ul className="dropdown-menu dropdown-menu-end">
                 <li>
                   <NavLink className="dropdown-item" to="/my-profile">
                     My Profile

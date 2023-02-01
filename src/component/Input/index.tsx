@@ -10,7 +10,9 @@ function Input(props: InputConfig) {
         max={props.max}
         id={props.id}
         className="form-control"
+        defaultValue={props.defaultvalue}
         value={props.value}
+        disabled = {props.disabled}
         name={props.name}
         onChange={props.handle}
       />

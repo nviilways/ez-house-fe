@@ -1,4 +1,5 @@
 import { LoginAuth, RegisterAuth, TokenAuth } from "../../../interface/auth";
+import { UpdateProfileInput } from "../../../interface/input";
 import IProfile from "../../../interface/profile";
 import IReservation from "../../../interface/reservation";
 import StandardResponse from "../../../interface/response";
@@ -13,6 +14,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: login,
       }),
+      invalidatesTags: ["User"],
     }),
     register: builder.mutation<StandardResponse<IProfile>, RegisterAuth>({
       query: (register) => ({
@@ -26,38 +28,62 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: "/logout",
         method: "POST",
         headers: {
-          "Authorization" : `Bearer ${token}`
-        }
-      })
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["User"],
     }),
     me: builder.query<StandardResponse<IProfile>, string>({
       query: (token) => ({
         url: "/me",
         method: "GET",
         headers: {
-          "Authorization" : `Bearer ${token}`
-        }
-      })
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["User"],
     }),
     getTransaction: builder.query<StandardResponse<ITransaction[]>, string>({
       query: (token) => ({
         url: "/transactions",
         method: "GET",
         headers: {
-          "Authorization" : `Bearer ${token}`
-        }
-      })
+          Authorization: `Bearer ${token}`,
+        },
+      }), providesTags: ["Transaction"]
     }),
     getHistory: builder.query<StandardResponse<IReservation[]>, string>({
       query: (token) => ({
         url: "/reservations/history",
         method: "GET",
         headers: {
-          "Authorization" : `Bearer ${token}`
-        }
-      })
-    })
+          Authorization: `Bearer ${token}`,
+        },
+      }), providesTags: ["Reservation"]
+    }),
+    updateProfile: builder.mutation<
+      StandardResponse<IProfile>,
+      { input: UpdateProfileInput; token: string }
+    >({
+      query: (data) => ({
+        url: "/update",
+        method: "PATCH",
+        body: data.input,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useMeQuery, useGetTransactionQuery, useGetHistoryQuery, useLogoutMutation } = userApiSlice;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useMeQuery,
+  useGetTransactionQuery,
+  useGetHistoryQuery,
+  useLogoutMutation,
+  useUpdateProfileMutation,
+} = userApiSlice;

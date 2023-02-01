@@ -11,6 +11,7 @@ import ProtectedPage from "./pages/ProtectedPage";
 import Register from "./pages/Register";
 import TopUp from "./pages/TopUp";
 import UpdateUser from "./pages/UpdateUser";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <ToastContainer />
     </div>
   );
 }
