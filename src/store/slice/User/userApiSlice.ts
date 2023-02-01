@@ -59,7 +59,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }), providesTags: ["Reservation"]
+      }), providesTags: [{type: "Reservation", id:"LIST"}]
     }),
     updateProfile: builder.mutation<
       StandardResponse<IProfile>,

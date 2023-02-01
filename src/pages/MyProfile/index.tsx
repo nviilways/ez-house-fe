@@ -59,6 +59,32 @@ function MyProfile() {
         input: { full_name: name, address: address, city_id: city },
         token: cookies.token,
       });
+
+      if (updateError) {
+        toast.error("Failed to update profile", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+
+      if (updateSuccess) {
+        toast.success("Profile Updated", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     } else {
       toast.error("Please fill the form to update", {
         position: toast.POSITION.TOP_CENTER,
@@ -78,36 +104,10 @@ function MyProfile() {
     setActive("history");
   };
 
-  useEffect(() => {
-    if (updateError) {
-      toast.error("Failed to update profile", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-
-    if (updateSuccess) {
-      toast.success("Profile Updated", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }, [isActive, updateError, updateSuccess]);
+  useEffect(() => {}, [isActive]);
 
   if (profileLoading) {
-    <Spinner />
+    <Spinner />;
   }
 
   if (profileError) {
@@ -115,7 +115,7 @@ function MyProfile() {
   }
 
   if (cityLoading) {
-    <Spinner />
+    <Spinner />;
   }
 
   if (cityError || !cityData?.data) {

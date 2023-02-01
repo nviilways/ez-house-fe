@@ -17,4 +17,10 @@ export interface UpdateProfileInput {
   city_id: number
 }
 
+export interface CreateReservationInput {
+  check_in_date: string
+  check_out_date: string
+  house_id: number
+}
+
 export default InputConfig;

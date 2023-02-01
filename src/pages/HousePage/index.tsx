@@ -10,8 +10,12 @@ import { useGetHouseByIdQuery } from "../../store/slice/House/houseApiSlice";
 import "./housepage.scss"
 
 function HousePage() {
+  const today = new Date();
+  const tommorow = new Date(today);
+  tommorow.setDate(today.getDate() + 1);
+
   const param = useParams();
-  const id = parseInt(param.id!);
+  const id = parseInt(param.id as string);
   const [cookies] = useCookies(["token"]);
 
   const [name, setName] = useState<string>("");

@@ -1,11 +1,18 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ReservationProps } from "../../interface/props/reservationcard";
 import { RootState } from "../../store";
+import { setIn, setOut } from "../../store/slice/House/houseFilterSlice";
 import { BalanceFormatter } from "../../utils/utils";
 import Input from "../Input";
 
 function ReservationCard(props: ReservationProps) {
+  const today = new Date();
+  const tommorow = new Date(today);
+  tommorow.setDate(today.getDate() + 1);
+
+  const dispatch = useDispatch();
+
   const { dateIn, dateOut } = useSelector(
     (state: RootState) => state.filterHouse
   );
@@ -27,16 +34,20 @@ function ReservationCard(props: ReservationProps) {
           label="Date In"
           name="datein"
           id="datein"
-          disabled
+          min={today.toISOString().split("T")[0]}
           defaultvalue={dateIn}
+          handle={(e: React.ChangeEvent<HTMLInputElement>) =>
+            dispatch(setIn(e.target.value))}
         />
         <Input
           type="date"
           label="Date Out"
           name="dateout"
           id="dateout"
-          disabled
+          min={tommorow.toISOString().split("T")[0]}
           defaultvalue={dateOut}
+          handle={(e: React.ChangeEvent<HTMLInputElement>) =>
+            dispatch(setOut(e.target.value))}
         />
         <p className="card-text pt-5">
           Total price: {BalanceFormatter(pricing())}
