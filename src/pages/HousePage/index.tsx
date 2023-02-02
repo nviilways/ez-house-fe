@@ -7,7 +7,7 @@ import ReservationCard from "../../component/ReservationCard";
 import Spinner from "../../component/Spinner";
 import IHouse from "../../interface/house";
 import { useGetHouseByIdQuery } from "../../store/slice/House/houseApiSlice";
-import "./housepage.scss"
+import "./housepage.scss";
 
 function HousePage() {
   const today = new Date();
@@ -55,25 +55,10 @@ function HousePage() {
     newForm.append("city_id", city);
     newForm.append("max_guest", guest);
 
-    await fetch(`${process.env.REACT_APP_URL}/houses/${param.id}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-      body: newForm,
-    })
-      .then((res) => {
-        if (res.ok) {
-          alert(res.statusText);
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
   };
 
   if (isLoading) {
-    <Spinner />
+    return <Spinner />;
   }
 
   if (isError) {
@@ -90,84 +75,10 @@ function HousePage() {
           <p className="text-desc">{data?.data?.description}</p>
         </div>
         <div>
-          <ReservationCard price={data?.data?.price as number}/>
+          <ReservationCard price={data?.data?.price as number} />
         </div>
       </div>
       <hr />
-      <div className="accordion" id="accordionParent">
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="updateHeading">
-            <button
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#updateAccordion"
-              aria-expanded="false"
-              aria-controls="updateAccordion"
-            >
-              Update Form
-            </button>
-          </h2>
-          <div
-            id="updateAccordion"
-            className="accordion-collapse collapse"
-            aria-labelledby="updateHeading"
-            data-bs-parent="#accordionParent"
-          >
-            <div className="accordion-body">
-              <form onSubmit={(e) => handleSubmit(e)}>
-                <div className="mb-3">
-                  <label className="form-label">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    className="form-control"
-                    onChange={(e) => handleName(e)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Price</label>
-                  <input
-                    type="number"
-                    name="price"
-                    className="form-control"
-                    onChange={(e) => handlePrice(e)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Description</label>
-                  <textarea
-                    name="description"
-                    className="form-control"
-                    onChange={(e) => handleDesc(e)}
-                  ></textarea>
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">City Id</label>
-                  <input
-                    type="text"
-                    name="city-id"
-                    className="form-control"
-                    onChange={(e) => handleCity(e)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Max Guest</label>
-                  <input
-                    type="text"
-                    name="max-guest"
-                    className="form-control"
-                    onChange={(e) => handleGuest(e)}
-                  />
-                </div>
-                <button type="submit" className="form-control btn btn-primary">
-                  Submit
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

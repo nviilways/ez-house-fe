@@ -23,19 +23,22 @@ function App() {
           <Route index path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/houses" element={<HouseList />} />
           <Route path="/house/:id" element={<HousePage />} />
           <Route element={<ProtectedPage />}>
+            <Route path="/houses" element={<HouseList />} />
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/update-profile" element={<UpdateUser />} />
             <Route path="/top-up" element={<TopUp />} />
             <Route path="/house/create" element={<CreateHouse />} />
-            <Route path="/house/:id/reservation" element={<CreateReservation />} />
+            <Route
+              path="/house/:id/reservation"
+              element={<CreateReservation />}
+            />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
-      <ToastContainer position="top-center"/>
+      <ToastContainer position="top-center" />
     </div>
   );
 }

@@ -3,7 +3,9 @@ import InputConfig from "../../interface/input";
 function Input(props: InputConfig) {
   return (
     <div>
-      <label className="form-label mt-3" htmlFor={props.id}>{props.label}</label>
+      <label className="form-label mt-3" htmlFor={props.id}>
+        {props.label}
+      </label>
       <input
         type={props.type}
         min={props.min}
@@ -12,11 +14,14 @@ function Input(props: InputConfig) {
         className="form-control"
         defaultValue={props.defaultvalue}
         value={props.value}
-        disabled = {props.disabled}
+        disabled={props.disabled}
         name={props.name}
         onChange={props.handle}
-        required = {props.required}
-        minLength= {props.minlength}
+        required={props.required}
+        minLength={props.minlength}
+        accept={props.accept}
+        multiple={props.multiple}
+        autoFocus={props.auto}
       />
     </div>
   );

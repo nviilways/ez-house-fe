@@ -6,6 +6,7 @@ interface IHouse {
     name: string
     price: number
     description: string
+    address: string
     city: ICity
     max_guest: number
     house_photos: IPhoto[] | undefined

@@ -10,6 +10,9 @@ interface InputConfig {
   min?: string;
   max?: string;
   minlength?: number
+  multiple?: boolean
+  accept?: string
+  auto?: boolean
   handle?: (args: any) => void;
 }
 

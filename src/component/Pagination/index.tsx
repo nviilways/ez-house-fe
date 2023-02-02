@@ -14,7 +14,7 @@ function Pagination(props: PaginationProps) {
       >
         <ChevronLeft class="mini" />
       </button>
-      <button className={`btn ${props.totalPage === 1 ? 'd-none' : ''}`}>
+      <button className={`btn ${props.totalPage <= 1 ? 'd-none' : ''}`}>
         {props.currentPage}
       </button>
       <button
