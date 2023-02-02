@@ -18,10 +18,6 @@ function HouseList() {
     const { data, isLoading, isError } = useGetHouseByVacancyQuery(filter)
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-
-    // }, [filter.limit])
-
     if(isLoading) {
         return (
             <Spinner />

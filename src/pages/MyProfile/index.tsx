@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import Button from "../../component/Button";
@@ -92,22 +92,8 @@ function MyProfile() {
     }
   };
 
-  const handleProfile = () => {
-    setActive("profile");
-  };
-
-  const handleTransaction = () => {
-    setActive("transaction");
-  };
-
-  const handleHistory = () => {
-    setActive("history");
-  };
-
-  useEffect(() => {}, [isActive]);
-
   if (profileLoading) {
-    <Spinner />;
+    return <Spinner />;
   }
 
   if (profileError) {
@@ -115,7 +101,7 @@ function MyProfile() {
   }
 
   if (cityLoading) {
-    <Spinner />;
+    return <Spinner />;
   }
 
   if (cityError || !cityData?.data) {
@@ -126,19 +112,30 @@ function MyProfile() {
     return { label: `${city.name}`, value: `${city.id}` };
   });
 
+  console.log(data);
+
   return (
     <div>
       <div className="container mt-5">
         <div className="content d-flex flex-column flex-md-row justify-content-around">
           <div className="sidebar">
             <div className="d-flex flex-column">
-              <Button type="button" label="My Profile" handle={handleProfile} />
+              <Button
+                type="button"
+                label="My Profile"
+                handle={() => setActive("profile")}
+              />
               <Button
                 type="button"
                 label="My Transaction"
-                handle={handleTransaction}
+                handle={() => setActive("transaction")}
               />
-              <Button type="button" label="My Booking" handle={handleHistory} />
+              <Button
+                type="button"
+                label="My Booking"
+                handle={() => setActive("history")}
+              />
+              <Button type="button" label="Upgrade to Host" />
             </div>
           </div>
           <div className="container d-flex justify-content-center main-content">

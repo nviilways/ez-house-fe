@@ -1,7 +1,11 @@
 import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Favicon from "../../assets/icon/Favicon";
+import UserIcon from "../../assets/icon/User";
+import { RootState } from "../../store";
 import { useLogoutMutation } from "../../store/slice/User/userApiSlice";
+import { setUserStateAll } from "../../store/slice/User/userSlice";
 import "./navbar.scss";
 
 function NavBar() {
@@ -9,9 +13,13 @@ function NavBar() {
   const [logout] = useLogoutMutation(cookies.token);
   const navigate = useNavigate();
 
+  const userStore = useSelector((state: RootState) => state.userStore)
+  const dispatch = useDispatch()
+
   const handleLogout = async () => {
     await logout(cookies.token);
     removeCookies("token");
+    dispatch(setUserStateAll(0))
     navigate("login");
   };
 
@@ -46,7 +54,7 @@ function NavBar() {
             </li>
             <li className="nav-item me-3">
               <NavLink
-                className={`ms-4 ${cookies.token !== undefined ? "d-none" : ""}`}
+                className={`ms-4 ${userStore.id !== 0 ? "d-none" : ""}`}
                 to="/login"
               >
                 Login
@@ -54,13 +62,13 @@ function NavBar() {
             </li>
             <li className="nav-item me-3 dropdown">
               <NavLink
-                className={`nav-link dropdown-toggle ${cookies.token === undefined ? "d-none" : ""}`}
+                className={`nav-link dropdown-toggle ${userStore.id === 0 ? "d-none" : ""}`}
                 to="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                User
+                <UserIcon class="mini" />
               </NavLink>
               <ul className="dropdown-menu dropdown-menu-end">
                 <li>
@@ -74,7 +82,7 @@ function NavBar() {
                 <li>
                   <NavLink
                     className={`dropdown-item ${
-                      cookies.token !== undefined ? "" : "d-none"
+                      userStore.id !== 0 ? "" : "d-none"
                     }`}
                     to="/logout"
                     onClick={handleLogout}

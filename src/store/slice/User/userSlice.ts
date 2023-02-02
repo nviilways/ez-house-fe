@@ -19,11 +19,17 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setUserID: (state, action) => {
-            return {...state, UserID: action.payload}
+            return {...state, id: action.payload}
+        },
+        setWalletID: (state, action) => {
+            return {...state, wallet_id: action.payload}
         },
         setRoleID: (state, action) => {
-            return {...state, RoleID: action.payload}
+            return {...state, role_id: action.payload}
         },
+        setUserStateAll: (state, action) => {
+            return {...state, id: action.payload, wallet_id: action.payload, role_id: action.payload}
+        }
     },
     extraReducers: (builder) => {
         builder.addMatcher(
@@ -36,5 +42,5 @@ export const userSlice = createSlice({
     }
 })
 
-export const { setUserID, setRoleID } = userSlice.actions
+export const { setUserID, setRoleID, setWalletID, setUserStateAll } = userSlice.actions
 export default userSlice.reducer
