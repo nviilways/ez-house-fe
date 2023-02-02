@@ -60,7 +60,7 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item me-5">
-              <NavLink to="/houses">Home</NavLink>
+              <NavLink to="/">Home</NavLink>
             </li>
             <li className="nav-item me-3">
               <NavLink className={`${userStore.role_id === 3 ? "" : "d-none"}`} to="/houses">House Listing</NavLink>

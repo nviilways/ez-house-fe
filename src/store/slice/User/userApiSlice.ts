@@ -65,10 +65,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     updateProfile: builder.mutation<
       StandardResponse<IProfile>,
-      { input: UpdateProfileInput; token: string }
+      { input: UpdateProfileInput; token: string; id: number }
     >({
       query: (data) => ({
-        url: "/update",
+        url: `/users/${data.id}`,
         method: "PATCH",
         body: data.input,
         headers: {
@@ -79,7 +79,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     upgradeRole: builder.mutation<void, string>({
       query: (token) => ({
-        url: "/update/role",
+        url: "/users/host",
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

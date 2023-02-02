@@ -70,6 +70,7 @@ function MyProfile() {
       await updateProfile({
         input: { full_name: name, address: address, city_id: city },
         token: cookies.token,
+        id: userStore.id
       });
     } else {
       toast.error("Please fill the form to update", {
