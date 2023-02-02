@@ -1,27 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../component/Button";
 import Input from "../../component/Input";
 import Select from "../../component/Select";
 import Spinner from "../../component/Spinner";
 import SelectConfig from "../../interface/select";
+import { RootState } from "../../store";
 import { useGetAllCityQuery } from "../../store/slice/City/cityApiSlice";
 import {
   useGetHistoryQuery,
   useGetTransactionQuery,
   useMeQuery,
   useUpdateProfileMutation,
+  useUpgradeRoleMutation,
 } from "../../store/slice/User/userApiSlice";
+import { setUserStateAll } from "../../store/slice/User/userSlice";
 import { DateFormatter } from "../../utils/utils";
 import "./myprofile.scss";
 
 function MyProfile() {
-  const [cookies] = useCookies(["token"]);
+  const [cookies, , removeCookies] = useCookies(["token"]);
   const [isActive, setActive] = useState<string>("profile");
   const [name, setName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [city, setCity] = useState<number>(0);
+
+  const userStore = useSelector((state: RootState) => state.userStore);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     data,
@@ -38,6 +47,9 @@ function MyProfile() {
 
   const [updateProfile, { isSuccess: updateSuccess, isError: updateError }] =
     useUpdateProfileMutation();
+
+  const [upgradeRole, { isSuccess: upgradeSuccess, isError: upgradeError }] =
+    useUpgradeRoleMutation();
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -59,38 +71,69 @@ function MyProfile() {
         input: { full_name: name, address: address, city_id: city },
         token: cookies.token,
       });
-
-      if (updateError) {
-        toast.error("Failed to update profile", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-
-      if (updateSuccess) {
-        toast.success("Profile Updated", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
     } else {
       toast.error("Please fill the form to update", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
   };
+
+  const handleUpgrade = async () => {
+    if (
+      window.confirm(
+        "Upgrading to Host will log you out of this session, do you want to continue ?"
+      )
+    ) {
+      await upgradeRole(cookies.token);
+    }
+  };
+
+  useEffect(() => {
+    if (updateError) {
+      toast.error("Failed to update profile", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
+    if (updateSuccess) {
+      toast.success("Profile Updated", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
+    if (upgradeSuccess) {
+      toast.success("Profile Upgraded ! Logging out");
+      removeCookies("token");
+      dispatch(setUserStateAll(0));
+      navigate("/login");
+    }
+
+    if (upgradeError) {
+      toast.error("Failed to Upgrade Profile");
+    }
+  }, [
+    updateSuccess,
+    updateError,
+    upgradeSuccess,
+    upgradeError,
+    dispatch,
+    navigate,
+    removeCookies,
+  ]);
 
   if (profileLoading) {
     return <Spinner />;
@@ -111,8 +154,6 @@ function MyProfile() {
   const options: SelectConfig[] = cityData.data.map((city) => {
     return { label: `${city.name}`, value: `${city.id}` };
   });
-
-  console.log(data);
 
   return (
     <div>
@@ -135,7 +176,12 @@ function MyProfile() {
                 label="My Booking"
                 handle={() => setActive("history")}
               />
-              <Button type="button" label="Upgrade to Host" />
+              <Button
+                class={`${userStore.role_id === 3 ? "d-none" : ""}`}
+                type="button"
+                label="Upgrade to Host"
+                handle={handleUpgrade}
+              />
             </div>
           </div>
           <div className="container d-flex justify-content-center main-content">

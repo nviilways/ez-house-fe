@@ -50,7 +50,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }), providesTags: ["Transaction"]
+      }),
+      providesTags: ["Transaction"],
     }),
     getHistory: builder.query<StandardResponse<IReservation[]>, string>({
       query: (token) => ({
@@ -59,7 +60,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }), providesTags: [{type: "Reservation", id:"LIST"}]
+      }),
+      providesTags: [{ type: "Reservation", id: "LIST" }],
     }),
     updateProfile: builder.mutation<
       StandardResponse<IProfile>,
@@ -75,6 +77,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    upgradeRole: builder.mutation<void, string>({
+      query: (token) => ({
+        url: "/update/role",
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -86,4 +98,5 @@ export const {
   useGetHistoryQuery,
   useLogoutMutation,
   useUpdateProfileMutation,
+  useUpgradeRoleMutation
 } = userApiSlice;

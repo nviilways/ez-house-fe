@@ -6,8 +6,10 @@ interface InputConfig {
   value?: string;
   defaultvalue?: string;
   disabled?: boolean
+  required?: boolean
   min?: string;
   max?: string;
+  minlength?: number
   handle?: (args: any) => void;
 }
 

@@ -15,6 +15,8 @@ function Input(props: InputConfig) {
         disabled = {props.disabled}
         name={props.name}
         onChange={props.handle}
+        required = {props.required}
+        minLength= {props.minlength}
       />
     </div>
   );

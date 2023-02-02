@@ -5,6 +5,7 @@ interface SelectProps {
     label: string
     defaultvalue?: string | number
     value?: string | number
+    required?: boolean
     handle?: (args: any) => void
     config: SelectConfig[]
 }

@@ -10,6 +10,7 @@ function Select(props: SelectProps) {
         defaultValue={props.defaultvalue}
         value={props.value}
         onChange={props.handle}
+        required = {props.required}
       >
         {props.config.map((select) => (
           <option key={select.value} value={select.value}>

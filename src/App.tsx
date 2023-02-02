@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import NavBar from "./component/NavBar";
 import CreateHouse from "./pages/CreateHouse";
-import Home from "./pages/Home";
 import HouseList from "./pages/HouseList";
 import HousePage from "./pages/HousePage";
 import Login from "./pages/Login";
@@ -20,7 +19,7 @@ function App() {
     <div>
       <Routes>
         <Route element={<NavBar />}>
-          <Route index path="/" element={<Home />} />
+          <Route index path="/" element={<HouseList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/houses" element={<HouseList />} />

@@ -27,6 +27,9 @@ export const userSlice = createSlice({
         setRoleID: (state, action) => {
             return {...state, role_id: action.payload}
         },
+        setAuth: (state, action) => {
+            return {...state, id: action.payload.id, role_id: action.payload.role_id, wallet_id: action.payload.wallet_id}
+        },
         setUserStateAll: (state, action) => {
             return {...state, id: action.payload, wallet_id: action.payload, role_id: action.payload}
         }
@@ -42,5 +45,5 @@ export const userSlice = createSlice({
     }
 })
 
-export const { setUserID, setRoleID, setWalletID, setUserStateAll } = userSlice.actions
+export const { setUserID, setRoleID, setWalletID, setAuth, setUserStateAll } = userSlice.actions
 export default userSlice.reducer

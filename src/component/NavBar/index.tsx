@@ -1,3 +1,5 @@
+import jwtDecode from "jwt-decode";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
@@ -5,7 +7,7 @@ import Favicon from "../../assets/icon/Favicon";
 import UserIcon from "../../assets/icon/User";
 import { RootState } from "../../store";
 import { useLogoutMutation } from "../../store/slice/User/userApiSlice";
-import { setUserStateAll } from "../../store/slice/User/userSlice";
+import { Claim, setAuth, setUserStateAll } from "../../store/slice/User/userSlice";
 import "./navbar.scss";
 
 function NavBar() {
@@ -15,6 +17,17 @@ function NavBar() {
 
   const userStore = useSelector((state: RootState) => state.userStore)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(cookies.token) {
+      const userId = (jwtDecode(cookies.token) as Claim).id
+      const roleId = (jwtDecode(cookies.token) as Claim).role_id
+      const walletId = (jwtDecode(cookies.token) as Claim).wallet_id
+      dispatch(setAuth({id: userId, role_id: roleId, wallet_id: walletId}))
+    } else {
+      dispatch(setUserStateAll(0))
+    }
+  }, [cookies.token, dispatch])
 
   const handleLogout = async () => {
     await logout(cookies.token);
@@ -47,10 +60,10 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item me-5">
-              <NavLink to="/">Home</NavLink>
+              <NavLink to="/houses">Home</NavLink>
             </li>
             <li className="nav-item me-3">
-              <NavLink to="/houses">House Listing</NavLink>
+              <NavLink className={`${userStore.role_id === 3 ? "" : "d-none"}`} to="/houses">House Listing</NavLink>
             </li>
             <li className="nav-item me-3">
               <NavLink
