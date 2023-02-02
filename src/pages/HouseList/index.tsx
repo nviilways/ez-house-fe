@@ -8,7 +8,6 @@ import Spinner from "../../component/Spinner";
 import Select from "../../component/Select";
 import SelectConfig from "../../interface/select";
 import { setLimit } from "../../store/slice/House/houseFilterSlice";
-import { useEffect } from "react";
 
 function HouseList() {
 
@@ -19,9 +18,9 @@ function HouseList() {
     const { data, isLoading, isError } = useGetHouseByVacancyQuery(filter)
     const dispatch = useDispatch()
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    }, [filter.limit])
+    // }, [filter.limit])
 
     if(isLoading) {
         return (
@@ -56,7 +55,7 @@ function HouseList() {
             ))}
         </div>
         <div className="d-flex justify-content-center align-items-center mt-5">
-            <Pagination currentPage={filter.page} totalPage={Math.ceil(data?.data?.count as number / filter.limit)} />
+            <Pagination currentPage={data?.data?.page as number} totalPage={Math.ceil(data?.data?.count as number / (data?.data?.limit as number))} />
         </div>
      </div>   
     )

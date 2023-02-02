@@ -5,12 +5,11 @@ import { setPage } from "../../store/slice/House/houseFilterSlice";
 
 function Pagination(props: PaginationProps) {
   const dispatch = useDispatch();
-  console.log(props.totalPage)
 
   return (
     <div>
       <button
-        className={`btn ${props.currentPage - 1 < 1 ? 'd-none' : ''}`}
+        className={`btn ${props.currentPage - 1 < 1 ? 'invisible' : ''}`}
         onClick={() => dispatch(setPage(props.currentPage - 1))}
       >
         <ChevronLeft class="mini" />
@@ -19,7 +18,7 @@ function Pagination(props: PaginationProps) {
         {props.currentPage}
       </button>
       <button
-        className={`btn ${props.currentPage + 1 > props.totalPage ? 'd-none' : ''}`}
+        className={`btn ${props.currentPage + 1 > props.totalPage ? 'invisible' : ''}`}
         onClick={() => dispatch(setPage(props.currentPage + 1))}
       >
         <ChevronRight class="mini" />
