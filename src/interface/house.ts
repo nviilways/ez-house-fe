@@ -5,6 +5,7 @@ interface IHouse {
     id: number
     name: string
     price: number
+    user_id: number
     description: string
     address: string
     city: ICity

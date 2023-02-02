@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import UpdateIcon from "../../assets/icon/Update";
+import DeleteHouse from "../../component/DeleteHouse";
 import HouseImage from "../../component/HouseImage";
 import HouseTitle from "../../component/HouseTitle";
 import ReservationCard from "../../component/ReservationCard";
 import Spinner from "../../component/Spinner";
+import UpdateHouseForm from "../../component/UpdateHouseForm";
 import IHouse from "../../interface/house";
+import { RootState } from "../../store";
 import { useGetHouseByIdQuery } from "../../store/slice/House/houseApiSlice";
 import "./housepage.scss";
 
@@ -14,48 +18,13 @@ function HousePage() {
   const tommorow = new Date(today);
   tommorow.setDate(today.getDate() + 1);
 
+  const userStore = useSelector((state:RootState) => state.userStore)
+
+  const [show, setShow] = useState<boolean>(false);
+
   const param = useParams();
   const id = parseInt(param.id as string);
-  const [cookies] = useCookies(["token"]);
-
-  const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<string>("");
-  const [desc, setDesc] = useState<string>("");
-  const [city, setCity] = useState<string>("");
-  const [guest, setGuest] = useState<string>("");
   const { data, isLoading, isError } = useGetHouseByIdQuery(id);
-
-  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(e.target.value);
-  };
-
-  const handleDesc = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDesc(e.target.value);
-  };
-
-  const handleCity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(e.target.value);
-  };
-
-  const handleGuest = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGuest(e.target.value);
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newForm = new FormData();
-
-    newForm.append("name", name);
-    newForm.append("price", price);
-    newForm.append("description", desc);
-    newForm.append("city_id", city);
-    newForm.append("max_guest", guest);
-
-  };
 
   if (isLoading) {
     return <Spinner />;
@@ -79,6 +48,18 @@ function HousePage() {
         </div>
       </div>
       <hr />
+      <div className={`d-flex flex-column justify-content-start ${data?.data?.user_id === userStore.id ? '' : 'd-none'}`}>
+        <div className="d-flex flex-column flex-md-row justify-content-evenly">
+          <div>
+            <label>Update House</label>
+            <button className="btn" onClick={() => setShow(!show)}><UpdateIcon class="mini"/></button>
+          </div>
+          <DeleteHouse house={data?.data as IHouse} />
+        </div>
+      </div>
+      <div className={`update-house ${show ? "" : "d-none"}`}>
+        <UpdateHouseForm house={data?.data as IHouse}/>
+      </div>
     </div>
   );
 }

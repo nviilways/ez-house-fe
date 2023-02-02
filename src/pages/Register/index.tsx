@@ -14,7 +14,7 @@ function Register() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [city, setCity] = useState<number>();
+  const [city, setCity] = useState<number>(1);
 
   const { data, isLoading, isError } = useGetAllCityQuery();
   const [registerUser, { isSuccess: registerSuccess, isError: registerError }] =

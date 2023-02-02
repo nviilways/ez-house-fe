@@ -17,7 +17,7 @@ export const houseApiSlice = apiSlice.injectEndpoints({
 
     getHouseById: builder.query<StandardResponse<IHouse>, number>({
       query: (id) => `/houses/${id}`,
-      providesTags: (result, error, id) => [{ type: "House", id }],
+      providesTags: (result, error, id) => [{ type: "House", id: id }],
       transformErrorResponse: (response, meta, arg) => response.data,
     }),
 
@@ -59,7 +59,7 @@ export const houseApiSlice = apiSlice.injectEndpoints({
           Authorization: `Bearer ${data.token}`,
         },
       }),
-      invalidatesTags: [{ type: "House", id: "LIST" }, {type: "House", id: "HOST"}],
+      invalidatesTags: (res, error, data) => [{ type: "House", id: "LIST" }, {type: "House", id: "HOST"}, {type: "House", id: data.id}],
     }),
 
     deleteHouse: builder.mutation<

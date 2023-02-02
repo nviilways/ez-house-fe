@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
+import HouseProps from "../../interface/props/house";
 import SelectConfig from "../../interface/select";
 import { useGetAllCityQuery } from "../../store/slice/City/cityApiSlice";
-import { useCreateHouseMutation } from "../../store/slice/House/houseApiSlice";
+import { useUpdateHouseMutation } from "../../store/slice/House/houseApiSlice";
 import Button from "../Button";
 import Input from "../Input";
 import Select from "../Select";
 import Spinner from "../Spinner";
 import Textarea from "../Textarea";
 
-function CreateHouseForm() {
-    const [cookies] = useCookies(['token'])
+function UpdateHouseForm(props: HouseProps) {
+  const [cookies] = useCookies(["token"]);
 
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
   const [address, setAddress] = useState<string>("");
-  const [city, setCity] = useState<number>(1);
+  const [city, setCity] = useState<number>(0);
   const [guest, setGuest] = useState<string>("");
-  const [images, setImages] = useState<FileList | null>();
 
   const {
     data: cityData,
@@ -27,16 +27,9 @@ function CreateHouseForm() {
     isError: cityError,
   } = useGetAllCityQuery();
   const [
-    createHouse,
+    updateHouse,
     { isError: houseError, isLoading: houseLoading, isSuccess: houseSuccess },
-  ] = useCreateHouseMutation();
-
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) {
-      return;
-    }
-    setImages(e.target.files);
-  };
+  ] = useUpdateHouseMutation();
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -65,17 +58,9 @@ function CreateHouseForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if(name && price && desc && address && city && guest && images){
+
+    if(name || price || desc || address || city || guest) {
       const newForm = new FormData();
-  
-      for (let i = 0; i < images!.length; i++) {
-        if (images?.[i].type.startsWith("image/")) {
-          newForm.append("photo", images![i]);
-          continue;
-        }
-        toast.error(`${images?.[i].name} is not image file !`);
-      }
   
       newForm.append("name", name);
       newForm.append("price", price);
@@ -84,21 +69,20 @@ function CreateHouseForm() {
       newForm.append("city_id", city.toString());
       newForm.append("max_guest", guest);
   
-      await createHouse({ input: newForm, token: cookies.token });
-    }
-    else {
-      toast.error("Please fill the form first")
+      await updateHouse({ input: newForm, token: cookies.token, id: props.house.id });
+      return
     }
 
+    toast.error("Please update the form first before submitting")
   };
 
   useEffect(() => {
     if (houseError) {
-      toast.error("Failed to create House");
+      toast.error("Failed to update House");
     }
 
     if (houseSuccess) {
-      toast.success("House Created");
+      toast.success("House Updated");
     }
   }, [houseError, houseSuccess]);
 
@@ -123,6 +107,7 @@ function CreateHouseForm() {
         name="name"
         id="name"
         required
+        defaultvalue={props.house.name}
         handle={(e) => handleName(e)}
       />
       <Textarea
@@ -130,6 +115,7 @@ function CreateHouseForm() {
         id="desc"
         name="desc"
         required
+        defaultvalue={props.house.description}
         handle={(e) => handleDesc(e)}
       />
       <Textarea
@@ -137,6 +123,7 @@ function CreateHouseForm() {
         name="address"
         id="address"
         required
+        defaultvalue={props.house.address}
         handle={(e) => handleAddress(e)}
       />
       <Select
@@ -144,7 +131,7 @@ function CreateHouseForm() {
         name="city"
         config={options}
         required
-        defaultvalue={cityData.data[0].id.toString()}
+        defaultvalue={props.house.city.id}
         handle={(e) => handleCity(e)}
       />
       <Input
@@ -153,6 +140,7 @@ function CreateHouseForm() {
         name="price"
         id="price"
         required
+        defaultvalue={props.house.price}
         handle={(e) => handlePrice(e)}
       />
       <Input
@@ -161,17 +149,8 @@ function CreateHouseForm() {
         name="guest"
         id="guest"
         required
+        defaultvalue={props.house.max_guest}
         handle={(e) => handleGuest(e)}
-      />
-      <Input
-        label="House Photos"
-        type="file"
-        name="photos"
-        id="photos"
-        required
-        multiple
-        accept="image/*"
-        handle={(e) => handleFile(e)}
       />
       <Button
         label="Submit"
@@ -182,4 +161,4 @@ function CreateHouseForm() {
   );
 }
 
-export default CreateHouseForm;
+export default UpdateHouseForm;
