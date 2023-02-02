@@ -13,13 +13,14 @@ import UpdateUser from "./pages/UpdateUser";
 import { ToastContainer } from "react-toastify";
 import PageNotFound from "./pages/PageNotFound";
 import CreateReservation from "./pages/CreateReservation";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <div>
       <Routes>
         <Route element={<NavBar />}>
-          <Route index path="/" element={<HouseList />} />
+          <Route index path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/houses" element={<HouseList />} />

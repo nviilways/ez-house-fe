@@ -1,21 +1,23 @@
 import HouseCard from "../../component/HouseCard"
-import HouseFilter from "../../component/HouseFilter"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store";
-import { useGetHouseByVacancyQuery } from "../../store/slice/House/houseApiSlice"
+import { useGetHouseByHostQuery } from "../../store/slice/House/houseApiSlice"
 import Pagination from "../../component/Pagination";
 import Spinner from "../../component/Spinner";
 import Select from "../../component/Select";
 import SelectConfig from "../../interface/select";
 import { setLimit } from "../../store/slice/House/houseFilterSlice";
+import { useCookies } from "react-cookie";
+import HostFilter from "../../component/HostFilter";
 
 function HouseList() {
 
   const filter = useSelector(
     (state: RootState) => state.filterHouse
   );
+  const [cookies] = useCookies(['token'])
 
-    const { data, isLoading, isError } = useGetHouseByVacancyQuery(filter)
+    const { data, isLoading, isError } = useGetHouseByHostQuery({token: cookies.token, filter: filter})
     const dispatch = useDispatch()
 
     if(isLoading) {
@@ -41,7 +43,7 @@ function HouseList() {
 
     return (
      <div className="container mt-5">
-        <HouseFilter />
+        <HostFilter />
         <div className="d-flex justify-content-start mb-4">
             <Select label="Items per page" name="limit" config={limitConfig} value={filter.limit} handle={(e) => dispatch(setLimit(e.target.value))} />
         </div>

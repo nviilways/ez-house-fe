@@ -1,73 +1,60 @@
-import React from "react";
-import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
+import HouseCard from "../../component/HouseCard"
+import HouseFilter from "../../component/HouseFilter"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store";
+import { useGetHouseByVacancyQuery } from "../../store/slice/House/houseApiSlice"
+import Pagination from "../../component/Pagination";
+import Spinner from "../../component/Spinner";
+import Select from "../../component/Select";
+import SelectConfig from "../../interface/select";
+import { setLimit } from "../../store/slice/House/houseFilterSlice";
 
-function Home() {
-  const [cookies] = useCookies(['token']);
+function HouseList() {
 
-  const onUpdate = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    await fetch(`${process.env.REACT_APP_URL}/update/role`, {
-      method: "PATCH",
-      headers: {
-        "authorization" : `Bearer ${cookies.token}`
-      },
-    }).then((res) => {
-      if (!res.ok) {
-        alert("cannot update role");
-        return;
-      }
-      alert("Update role successful");
-      return;
-    });
-  };
-
-  return (
-    <div>
-      <div className="d-flex flex-column gap-5 justify-content-center align-items-center mt-5">
-        <div className="login">
-          <Link to="/login">
-            <button className="btn btn-primary">Login</button>
-          </Link>
-        </div>
-        <div className="register">
-          <Link to="/register">
-            <button className="btn btn-primary">Register</button>
-          </Link>
-        </div>
-        <div className="my-profile">
-          <Link to="/my-profile">
-            <button className="btn btn-primary">My Profile</button>
-          </Link>
-        </div>
-        <div className="update-profile">
-          <Link to="/update-profile">
-            <button className="btn btn-primary">Update Profile</button>
-          </Link>
-        </div>
-        <div className="topup">
-          <Link to="/topup">
-            <button className="btn btn-primary">Top Up</button>
-          </Link>
-        </div>
-        <div className="house">
-          <Link to="/house/create">
-            <button className="btn btn-primary">Create House</button>
-          </Link>
-        </div>
-        <div className="houses">
-          <Link to="/houses">
-            <button className="btn btn-primary">House List</button>
-          </Link>
-        </div>
-        <div className="updaterole">
-          <button className="btn btn-primary" onClick={(e) => onUpdate(e)}>
-            Update Role
-          </button>
-        </div>
-      </div>
-    </div>
+  const filter = useSelector(
+    (state: RootState) => state.filterHouse
   );
+
+    const { data, isLoading, isError } = useGetHouseByVacancyQuery(filter)
+    const dispatch = useDispatch()
+
+    if(isLoading) {
+        return (
+            <Spinner />
+        )
+    }
+
+    if(isError) {
+        return (
+            <div>
+                <h1>Error fetching house data</h1>
+            </div>
+        )
+    }
+
+    const limitConfig: SelectConfig[] = [
+        {label: '1', value: 1},
+        {label: '5', value: 5},
+        {label: '10', value: 10},
+        {label: '20', value: 20},
+    ]
+
+    return (
+     <div className="container mt-5">
+        <HouseFilter />
+        <div className="d-flex justify-content-start mb-4">
+            <Select label="Items per page" name="limit" config={limitConfig} value={filter.limit} handle={(e) => dispatch(setLimit(e.target.value))} />
+        </div>
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+            {data?.data?.data?.map((house) => (
+                <HouseCard key={house.id} house={house} />
+            ))}
+        </div>
+        <div className="d-flex justify-content-center align-items-center mt-5">
+            <Pagination currentPage={data?.data?.page as number} totalPage={Math.ceil(data?.data?.count as number / (data?.data?.limit as number))} />
+        </div>
+     </div>   
+    )
 }
 
-export default Home;
+export default HouseList

@@ -20,37 +20,63 @@ export const houseApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, id) => [{ type: "House", id }],
       transformErrorResponse: (response, meta, arg) => response.data,
     }),
-    createHouse: builder.mutation<StandardResponse<IHouse>, {input: FormData, token: string}>({
+
+    getHouseByHost: builder.query<StandardResponse<Pagination<IHouse[]>>, {token: string, filter: IHouseFilter}>({
       query: (data) => ({
-        url: '/houses',
+        url: `/houses/host?sort=${data.filter.sortCol}&sortby=${data.filter.sortBy}&guest=${data.filter.guest}&searchname=${data.filter.name}&searchcity=${data.filter.city}&page=${data.filter.page}&limit=${data.filter.limit}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      }),
+      providesTags: [{ type: "House", id: "HOST" }],
+    }),
+
+    createHouse: builder.mutation<
+      StandardResponse<IHouse>,
+      { input: FormData; token: string }
+    >({
+      query: (data) => ({
+        url: "/houses",
         method: "POST",
         body: data.input,
         headers: {
-          "Authorization" : `Bearer ${data.token}`
-        }
-      }), invalidatesTags: [{type: "House", id: "LIST"}]
+          Authorization: `Bearer ${data.token}`,
+        },
+      }),
+      invalidatesTags: [{ type: "House", id: "LIST" }, {type: "House", id: "HOST"}],
     }),
-    updateHouse: builder.mutation<StandardResponse<IHouse>, {input: FormData, token: string, id: number}>({
+
+    updateHouse: builder.mutation<
+      StandardResponse<IHouse>,
+      { input: FormData; token: string; id: number }
+    >({
       query: (data) => ({
         url: `/houses/${data.id}`,
         method: "PATCH",
         body: data.input,
         headers: {
-          "Authorization" : `Bearer ${data.token}`
-        }
-      }), invalidatesTags: [{type: "House", id: "LIST"}]
+          Authorization: `Bearer ${data.token}`,
+        },
+      }),
+      invalidatesTags: [{ type: "House", id: "LIST" }, {type: "House", id: "HOST"}],
     }),
-    deleteHouse: builder.mutation<StandardResponse<IHouse>, {token: string, id: number}>({
+
+    deleteHouse: builder.mutation<
+      StandardResponse<IHouse>,
+      { token: string; id: number }
+    >({
       query: (data) => ({
         url: `/houses/${data.id}`,
         method: "DELETE",
         headers: {
-          "Authorization" : `Bearer ${data.token}`
-        }
-      }), invalidatesTags: [{type: "House", id: "LIST"}]
-    })
+          Authorization: `Bearer ${data.token}`,
+        },
+      }),
+      invalidatesTags: [{ type: "House", id: "LIST" }, {type: "House", id: "HOST"}],
+    }),
   }),
 });
 
-export const { useGetHouseByVacancyQuery, useGetHouseByIdQuery } =
+export const { useGetHouseByVacancyQuery, useGetHouseByIdQuery, useGetHouseByHostQuery, useCreateHouseMutation, useUpdateHouseMutation, useDeleteHouseMutation } =
   houseApiSlice;
