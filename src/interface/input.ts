@@ -4,7 +4,7 @@ interface InputConfig {
   name: string;
   id: string;
   value?: string;
-  defaultvalue?: string;
+  defaultvalue?: string | number;
   disabled?: boolean
   required?: boolean
   min?: string;

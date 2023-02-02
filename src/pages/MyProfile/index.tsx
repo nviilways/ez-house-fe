@@ -18,7 +18,7 @@ import {
   useUpgradeRoleMutation,
 } from "../../store/slice/User/userApiSlice";
 import { setUserStateAll } from "../../store/slice/User/userSlice";
-import { DateFormatter } from "../../utils/utils";
+import { BalanceFormatter, DateFormatter } from "../../utils/utils";
 import "./myprofile.scss";
 
 function MyProfile() {
@@ -70,7 +70,7 @@ function MyProfile() {
       await updateProfile({
         input: { full_name: name, address: address, city_id: city },
         token: cookies.token,
-        id: userStore.id
+        id: userStore.id,
       });
     } else {
       toast.error("Please fill the form to update", {
@@ -187,7 +187,7 @@ function MyProfile() {
           </div>
           <div className="container d-flex justify-content-center main-content">
             <form
-              className="d-flex flex-column flex-md-row"
+              className="d-flex flex-column flex-md-row gap-5"
               onSubmit={(e) => handleSubmit(e)}
             >
               <div className={`${isActive === "profile" ? "" : "d-none"}`}>
@@ -231,6 +231,12 @@ function MyProfile() {
                   defaultvalue={data?.data?.role.name}
                 />
                 <Button label="Update Profile" type="submit" />
+              </div>
+              <div className={`${isActive === "profile" ? "" : "d-none"}`}>
+                <div>
+                  <Input type="number" label="Wallet ID" name="wallet" id="wallet" disabled defaultvalue={data?.data?.wallet.id as number} />
+                  <Input type="text" label="Wallet Balance" name="balance" id="balance" disabled defaultvalue={BalanceFormatter(data?.data?.wallet.balance as number)} />
+                </div>
               </div>
             </form>
             <div
