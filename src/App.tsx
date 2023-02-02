@@ -28,7 +28,7 @@ function App() {
           <Route element={<ProtectedPage />}>
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/update-profile" element={<UpdateUser />} />
-            <Route path="/topup" element={<TopUp />} />
+            <Route path="/top-up" element={<TopUp />} />
             <Route path="/house/create" element={<CreateHouse />} />
             <Route path="/house/:id/reservation" element={<CreateReservation />} />
           </Route>

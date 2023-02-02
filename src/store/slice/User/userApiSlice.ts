@@ -87,6 +87,21 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    userTopup: builder.mutation<
+      StandardResponse<ITransaction>,
+      { amount: number; token: string }
+    >({
+      query: (data) => ({
+        url: "/transactions/topup",
+        method: "POST",
+        body: JSON.stringify({
+          amount: data.amount
+        }),
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      }), invalidatesTags: ["User"]
+    }),
   }),
 });
 
@@ -98,5 +113,6 @@ export const {
   useGetHistoryQuery,
   useLogoutMutation,
   useUpdateProfileMutation,
-  useUpgradeRoleMutation
+  useUpgradeRoleMutation,
+  useUserTopupMutation
 } = userApiSlice;

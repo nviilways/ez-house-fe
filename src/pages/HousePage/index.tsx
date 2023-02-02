@@ -93,6 +93,7 @@ function HousePage() {
           <ReservationCard price={data?.data?.price as number}/>
         </div>
       </div>
+      <hr />
       <div className="accordion" id="accordionParent">
         <div className="accordion-item">
           <h2 className="accordion-header" id="updateHeading">

@@ -2,12 +2,16 @@ import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import Favicon from "../../assets/icon/Favicon";
 import UserIcon from "../../assets/icon/User";
 import { RootState } from "../../store";
 import { useLogoutMutation } from "../../store/slice/User/userApiSlice";
-import { Claim, setAuth, setUserStateAll } from "../../store/slice/User/userSlice";
+import {
+  Claim,
+  setAuth,
+  setUserStateAll,
+} from "../../store/slice/User/userSlice";
 import "./navbar.scss";
 
 function NavBar() {
@@ -15,24 +19,24 @@ function NavBar() {
   const [logout] = useLogoutMutation(cookies.token);
   const navigate = useNavigate();
 
-  const userStore = useSelector((state: RootState) => state.userStore)
-  const dispatch = useDispatch()
+  const userStore = useSelector((state: RootState) => state.userStore);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if(cookies.token) {
-      const userId = (jwtDecode(cookies.token) as Claim).id
-      const roleId = (jwtDecode(cookies.token) as Claim).role_id
-      const walletId = (jwtDecode(cookies.token) as Claim).wallet_id
-      dispatch(setAuth({id: userId, role_id: roleId, wallet_id: walletId}))
+    if (cookies.token) {
+      const userId = (jwtDecode(cookies.token) as Claim).id;
+      const roleId = (jwtDecode(cookies.token) as Claim).role_id;
+      const walletId = (jwtDecode(cookies.token) as Claim).wallet_id;
+      dispatch(setAuth({ id: userId, role_id: roleId, wallet_id: walletId }));
     } else {
-      dispatch(setUserStateAll(0))
+      dispatch(setUserStateAll(0));
     }
-  }, [cookies.token, dispatch])
+  }, [cookies.token, dispatch]);
 
   const handleLogout = async () => {
     await logout(cookies.token);
     removeCookies("token");
-    dispatch(setUserStateAll(0))
+    dispatch(setUserStateAll(0));
     navigate("login");
   };
 
@@ -40,11 +44,13 @@ function NavBar() {
     <div className="container">
       <nav className="navbar bg-light navbar-expand-lg">
         <div>
-          <h3 className="navbar-brand ms-2">
-            <span className="me-2 fst-italic">E</span>
-            <Favicon class="small" />
-            <span className="ms-2 fst-italic">Z</span>
-          </h3>
+          <Link to="">
+            <h3 className="navbar-brand ms-2">
+              <span className="me-2 fst-italic">E</span>
+              <Favicon class="small" />
+              <span className="ms-2 fst-italic">Z</span>
+            </h3>
+          </Link>
         </div>
         <button
           className="navbar-toggler"
@@ -62,8 +68,16 @@ function NavBar() {
             <li className="nav-item me-5">
               <NavLink to="/">Home</NavLink>
             </li>
+            <li className="nav-item me-5">
+              <NavLink to="/top-up">Top Up</NavLink>
+            </li>
             <li className="nav-item me-3">
-              <NavLink className={`${userStore.role_id === 3 ? "" : "d-none"}`} to="/houses">House Listing</NavLink>
+              <NavLink
+                className={`${userStore.role_id === 3 ? "" : "d-none"}`}
+                to="/houses"
+              >
+                House Listing
+              </NavLink>
             </li>
             <li className="nav-item me-3">
               <NavLink
@@ -75,7 +89,9 @@ function NavBar() {
             </li>
             <li className="nav-item me-3 dropdown">
               <NavLink
-                className={`nav-link dropdown-toggle ${userStore.id === 0 ? "d-none" : ""}`}
+                className={`nav-link dropdown-toggle ${
+                  userStore.id === 0 ? "d-none" : ""
+                }`}
                 to="#"
                 role="button"
                 data-bs-toggle="dropdown"
