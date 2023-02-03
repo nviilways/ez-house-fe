@@ -140,6 +140,7 @@ function UpdateHouseForm(props: HouseProps) {
         name="price"
         id="price"
         required
+        min="1"
         defaultvalue={props.house.price}
         handle={(e) => handlePrice(e)}
       />
@@ -149,6 +150,7 @@ function UpdateHouseForm(props: HouseProps) {
         name="guest"
         id="guest"
         required
+        min="1"
         defaultvalue={props.house.max_guest}
         handle={(e) => handleGuest(e)}
       />

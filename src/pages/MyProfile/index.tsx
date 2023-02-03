@@ -30,7 +30,7 @@ function MyProfile() {
   const [city, setCity] = useState<number>(0);
 
   const userStore = useSelector((state: RootState) => state.userStore);
-  const filter = useSelector((state: RootState) => state.filterHouse);
+  const filter = useSelector((state: RootState) => state.filterTx);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

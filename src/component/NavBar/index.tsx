@@ -82,7 +82,7 @@ function NavBar() {
                 House Listing
               </NavLink>
             </li>
-            <li className={`nav-item me-3 ${userStore.id !== 0 ? "d-none" : ""}`}>
+            <li className={`nav-item ms-3 me-3 ${userStore.id !== 0 ? "d-none" : ""}`}>
               <NavLink
                 to="/login"
               >

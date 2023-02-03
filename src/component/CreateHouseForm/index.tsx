@@ -84,7 +84,8 @@ function CreateHouseForm() {
       newForm.append("city_id", city.toString());
       newForm.append("max_guest", guest);
   
-      await createHouse({ input: newForm, token: cookies.token });
+      toast.info("Creating House...")
+      await createHouse({ input: newForm, token: cookies.token })
     }
     else {
       toast.error("Please fill the form first")
@@ -153,6 +154,7 @@ function CreateHouseForm() {
         name="price"
         id="price"
         required
+        min="1"
         handle={(e) => handlePrice(e)}
       />
       <Input
@@ -161,6 +163,7 @@ function CreateHouseForm() {
         name="guest"
         id="guest"
         required
+        min="1"
         handle={(e) => handleGuest(e)}
       />
       <Input
