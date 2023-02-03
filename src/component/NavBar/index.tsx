@@ -65,13 +65,16 @@ function NavBar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item me-5">
+            <li className={`nav-item ${userStore.id !== 0 ? "me-5" : ""}`}>
               <NavLink to="/">Home</NavLink>
             </li>
-            <li className="nav-item me-5">
+            <li className={`nav-item me-5 ${userStore.id === 0 ? "d-none" : ""}`}>
               <NavLink to="/top-up">Top Up</NavLink>
             </li>
-            <li className="nav-item me-3">
+            <li className={`nav-item me-5 ${userStore.id === 0 ? "d-none" : ""}`}>
+              <NavLink to="/reservation">Your Booking</NavLink>
+            </li>
+            <li className={`nav-item me-4 ${userStore.role_id === 3 ? "" : "d-none"}`}>
               <NavLink
                 className={`${userStore.role_id === 3 ? "" : "d-none"}`}
                 to="/houses"
@@ -79,9 +82,8 @@ function NavBar() {
                 House Listing
               </NavLink>
             </li>
-            <li className="nav-item me-3">
+            <li className={`nav-item me-3 ${userStore.id !== 0 ? "d-none" : ""}`}>
               <NavLink
-                className={`ms-4 ${userStore.id !== 0 ? "d-none" : ""}`}
                 to="/login"
               >
                 Login

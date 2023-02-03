@@ -11,7 +11,6 @@ import SelectConfig from "../../interface/select";
 import { RootState } from "../../store";
 import { useGetAllCityQuery } from "../../store/slice/City/cityApiSlice";
 import {
-  useGetHistoryQuery,
   useGetTransactionQuery,
   useMeQuery,
   useUpdateProfileMutation,
@@ -38,7 +37,6 @@ function MyProfile() {
     isLoading: profileLoading,
   } = useMeQuery(cookies.token);
   const { data: txData } = useGetTransactionQuery(cookies.token);
-  const { data: resData } = useGetHistoryQuery(cookies.token);
   const {
     data: cityData,
     isLoading: cityLoading,
@@ -173,11 +171,6 @@ function MyProfile() {
                 handle={() => setActive("transaction")}
               />
               <Button
-                type="button"
-                label="My Booking"
-                handle={() => setActive("history")}
-              />
-              <Button
                 class={`${userStore.role_id === 3 ? "d-none" : ""}`}
                 type="button"
                 label="Upgrade to Host"
@@ -258,34 +251,6 @@ function MyProfile() {
                       <td>{tx.transaction_type.name}</td>
                       <td>{tx.balance}</td>
                       <td>{DateFormatter(tx.created_at)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className={`${isActive === "history" ? "" : "d-none"}`}>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Booking Code</th>
-                    <th scope="col">House</th>
-                    <th scope="col">Check In Date</th>
-                    <th scope="col">Check Out Date</th>
-                    <th scope="col">Total Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {resData?.data?.map((res) => (
-                    <tr key={res.id}>
-                      <td>{res.id}</td>
-                      <td>{res.booking_code}</td>
-                      <td>
-                        {res.house.name}, {res.house.city.name}
-                      </td>
-                      <td>{DateFormatter(res.check_in_date)}</td>
-                      <td>{DateFormatter(res.check_out_date)}</td>
-                      <td>{res.total_price}</td>
                     </tr>
                   ))}
                 </tbody>

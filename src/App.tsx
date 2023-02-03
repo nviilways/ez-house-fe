@@ -9,11 +9,12 @@ import MyProfile from "./pages/MyProfile";
 import ProtectedPage from "./pages/ProtectedPage";
 import Register from "./pages/Register";
 import TopUp from "./pages/TopUp";
-import UpdateUser from "./pages/UpdateUser";
 import { ToastContainer } from "react-toastify";
 import PageNotFound from "./pages/PageNotFound";
 import CreateReservation from "./pages/CreateReservation";
 import Home from "./pages/Home";
+import ReservationDetail from "./pages/ReservationDetail";
+import Reservation from "./pages/Reservation";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
           <Route element={<ProtectedPage />}>
             <Route path="/houses" element={<HouseList />} />
             <Route path="/my-profile" element={<MyProfile />} />
-            <Route path="/update-profile" element={<UpdateUser />} />
+            <Route path="/reservation" element={<Reservation />} />  /
+            <Route path="/reservation/:id" element={<ReservationDetail />} /> 
             <Route path="/top-up" element={<TopUp />} />
             <Route path="/house/create" element={<CreateHouse />} />
             <Route
