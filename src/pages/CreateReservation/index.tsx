@@ -1,7 +1,7 @@
 import React from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../component/Button";
 import HouseTitle from "../../component/HouseTitle";
@@ -22,6 +22,7 @@ function CreateReservation() {
 
   const param = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const id = parseInt(param.id as string);
 
   const { dateIn, dateOut } = useSelector(
@@ -44,6 +45,7 @@ function CreateReservation() {
     })
       .unwrap().then(() => {
         toast.success("Reservation Success")
+        navigate('/reservation')
       })
       .catch((error) => {
         toast.error(error.data.message);
@@ -51,7 +53,7 @@ function CreateReservation() {
   };
 
   if (isLoading) {
-    <Spinner />;
+    return <Spinner />;
   }
 
   if (isError) {
@@ -96,18 +98,18 @@ function CreateReservation() {
         />
         <p className="mt-3">
           Reserving for:{" "}
-          {new Date(dateOut).getDate() - new Date(dateIn).getDate()} day(s)
+          {(new Date(dateOut).getTime() - new Date(dateIn).getTime()) / (1000 * 60 * 60 * 24)} day(s)
         </p>
         <hr />
         <h4 className="mb-4">Pricing Details</h4>
         <p>
           Price: {BalanceFormatter(data?.data?.price as number)} x{" "}
-          {new Date(dateOut).getDate() - new Date(dateIn).getDate()} night(s)
+          {(new Date(dateOut).getTime() - new Date(dateIn).getTime()) / (1000 * 60 * 60 * 24)} night(s)
         </p>
         <p className="fw-bold">
           Total Price:{" "}
           {BalanceFormatter(
-            (new Date(dateOut).getDate() - new Date(dateIn).getDate()) *
+            ((new Date(dateOut).getTime() - new Date(dateIn).getTime()) / (1000 * 60 * 60 * 24)) *
               (data?.data?.price as number)
           )}
         </p>

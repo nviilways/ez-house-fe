@@ -1,4 +1,5 @@
 import { CreateReservationInput } from "../../../interface/input";
+import IPickup from "../../../interface/pickup";
 import IReservation from "../../../interface/reservation";
 import StandardResponse from "../../../interface/response";
 import { apiSlice } from "../api/apiSlice";
@@ -31,7 +32,17 @@ export const reserveApiSlice = apiSlice.injectEndpoints({
         }
       }), providesTags: (res, error, data) => [{type: "Reservation", id: data.id}]
     }),
+    createPickup: builder.mutation<StandardResponse<IPickup>, {user_id: number, reservation_id: number, token: string}>({
+      query: (data) => ({
+        url: '/pickups',
+        method: "POST",
+        body: {user_id: data.user_id, reservation_id: data.reservation_id},
+        headers: {
+          Authorization: `Bearer ${data.token}`
+        }
+      }), invalidatesTags: (res, error, data) => [{type: "Reservation", id: data.reservation_id}]
+    })
   }),
 });
 
-export const { useCreateReservationMutation, useGetReservationByIdQuery } = reserveApiSlice;
+export const { useCreateReservationMutation, useGetReservationByIdQuery, useCreatePickupMutation } = reserveApiSlice;

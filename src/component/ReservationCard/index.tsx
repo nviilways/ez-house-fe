@@ -20,7 +20,7 @@ function ReservationCard(props: ReservationProps) {
     const pricing = () => {
         const formattedDateIn = new Date(dateIn)
         const formattedDateOut = new Date(dateOut)
-        const dayRange = formattedDateOut.getDate() - formattedDateIn.getDate()
+        const dayRange = (formattedDateOut.getTime() - formattedDateIn.getTime()) / (1000 * 60 * 60 * 24)
         
         return dayRange * props.price
     }
