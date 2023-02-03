@@ -1,10 +1,12 @@
 import { LoginAuth, RegisterAuth, TokenAuth } from "../../../interface/auth";
 import { UpdateProfileInput } from "../../../interface/input";
+import Pagination from "../../../interface/pagination";
 import IProfile from "../../../interface/profile";
 import IReservation from "../../../interface/reservation";
 import StandardResponse from "../../../interface/response";
 import ITransaction from "../../../interface/transaction";
 import { apiSlice } from "../api/apiSlice";
+import { IHouseFilter } from "../House/houseFilterSlice";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -43,19 +45,19 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
-    getTransaction: builder.query<StandardResponse<ITransaction[]>, string>({
-      query: (token) => ({
-        url: "/transactions",
+    getTransaction: builder.query<StandardResponse<Pagination<ITransaction[]>>, {token: string, filter: Pick<IHouseFilter, "limit" | "page">}>({
+      query: (data) => ({
+        url: `/transactions?page=${data.filter.page}&limit=${data.filter.limit}`,
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${data.token}`,
         },
       }),
       providesTags: ["Transaction"],
     }),
     getHistory: builder.query<StandardResponse<IReservation[]>, string>({
       query: (token) => ({
-        url: "/reservations/history",
+        url: `/reservations/history`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

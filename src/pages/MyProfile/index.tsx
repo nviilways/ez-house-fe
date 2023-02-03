@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../component/Button";
 import Input from "../../component/Input";
+import Pagination from "../../component/Pagination";
 import Select from "../../component/Select";
 import Spinner from "../../component/Spinner";
 import SelectConfig from "../../interface/select";
@@ -17,6 +18,7 @@ import {
   useUpgradeRoleMutation,
 } from "../../store/slice/User/userApiSlice";
 import { setUserStateAll } from "../../store/slice/User/userSlice";
+import { setPageTx } from "../../store/slice/User/userTxFilSlice";
 import { BalanceFormatter, DateFormatter } from "../../utils/utils";
 import "./myprofile.scss";
 
@@ -28,6 +30,7 @@ function MyProfile() {
   const [city, setCity] = useState<number>(0);
 
   const userStore = useSelector((state: RootState) => state.userStore);
+  const filter = useSelector((state: RootState) => state.filterHouse);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,7 +39,7 @@ function MyProfile() {
     isError: profileError,
     isLoading: profileLoading,
   } = useMeQuery(cookies.token);
-  const { data: txData } = useGetTransactionQuery(cookies.token);
+  const { data: txData } = useGetTransactionQuery({token: cookies.token, filter: filter});
   const {
     data: cityData,
     isLoading: cityLoading,
@@ -227,8 +230,24 @@ function MyProfile() {
               </div>
               <div className={`${isActive === "profile" ? "" : "d-none"}`}>
                 <div>
-                  <Input type="number" label="Wallet ID" name="wallet" id="wallet" disabled defaultvalue={data?.data?.wallet.id as number} />
-                  <Input type="text" label="Wallet Balance" name="balance" id="balance" disabled defaultvalue={BalanceFormatter(data?.data?.wallet.balance as number)} />
+                  <Input
+                    type="number"
+                    label="Wallet ID"
+                    name="wallet"
+                    id="wallet"
+                    disabled
+                    defaultvalue={data?.data?.wallet.id as number}
+                  />
+                  <Input
+                    type="text"
+                    label="Wallet Balance"
+                    name="balance"
+                    id="balance"
+                    disabled
+                    defaultvalue={BalanceFormatter(
+                      data?.data?.wallet.balance as number
+                    )}
+                  />
                 </div>
               </div>
             </form>
@@ -237,24 +256,36 @@ function MyProfile() {
                 ${isActive === "transaction" ? "" : "d-none"}
               `}
             >
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Type</th>
-                    <th scope="col">Balance</th>
-                    <th scope="col">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {txData?.data?.map((tx) => (
-                    <tr key={tx.id}>
-                      <td>{tx.transaction_type.name}</td>
-                      <td>{tx.balance}</td>
-                      <td>{DateFormatter(tx.created_at)}</td>
+              <div className="table-responsive">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Type</th>
+                      <th scope="col">Balance</th>
+                      <th scope="col">Date</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {txData?.data?.data?.map((tx) => (
+                      <tr key={tx.id}>
+                        <td>{tx.transaction_type.name}</td>
+                        <td>{tx.balance}</td>
+                        <td>{DateFormatter(tx.created_at)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="d-flex justify-content-center align-items-center mt-5">
+                <Pagination
+                  currentPage={txData?.data?.page as number}
+                  totalPage={Math.ceil(
+                    (txData?.data?.count as number) /
+                      (txData?.data?.limit as number)
+                  )}
+                  setPage={(page) => dispatch(setPageTx(page))}
+                />
+              </div>
             </div>
           </div>
         </div>

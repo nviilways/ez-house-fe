@@ -7,7 +7,7 @@ import Pagination from "../../component/Pagination";
 import Spinner from "../../component/Spinner";
 import Select from "../../component/Select";
 import SelectConfig from "../../interface/select";
-import { setLimit } from "../../store/slice/House/houseFilterSlice";
+import { setLimit, setPage } from "../../store/slice/House/houseFilterSlice";
 
 function HouseList() {
 
@@ -51,7 +51,7 @@ function HouseList() {
             ))}
         </div>
         <div className="d-flex justify-content-center align-items-center mt-5">
-            <Pagination currentPage={data?.data?.page as number} totalPage={Math.ceil(data?.data?.count as number / (data?.data?.limit as number))} />
+            <Pagination currentPage={data?.data?.page as number} totalPage={Math.ceil(data?.data?.count as number / (data?.data?.limit as number))} setPage={(page) => dispatch(setPage(page))} />
         </div>
      </div>   
     )

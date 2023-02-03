@@ -3,6 +3,7 @@ import StandardResponse from "../../../interface/response";
 import IHouse from "../../../interface/house";
 import { IHouseFilter } from "./houseFilterSlice";
 import Pagination from "../../../interface/pagination";
+import { IHouseHostFilter } from "./houseHostSlice";
 
 export const houseApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,7 +22,7 @@ export const houseApiSlice = apiSlice.injectEndpoints({
       transformErrorResponse: (response, meta, arg) => response.data,
     }),
 
-    getHouseByHost: builder.query<StandardResponse<Pagination<IHouse[]>>, {token: string, filter: IHouseFilter}>({
+    getHouseByHost: builder.query<StandardResponse<Pagination<IHouse[]>>, {token: string, filter: IHouseHostFilter}>({
       query: (data) => ({
         url: `/houses/host?sort=${data.filter.sortCol}&sortby=${data.filter.sortBy}&guest=${data.filter.guest}&searchname=${data.filter.name}&searchcity=${data.filter.city}&page=${data.filter.page}&limit=${data.filter.limit}`,
         method: "GET",

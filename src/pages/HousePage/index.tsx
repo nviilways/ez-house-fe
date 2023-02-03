@@ -57,9 +57,7 @@ function HousePage() {
           <DeleteHouse house={data?.data as IHouse} />
         </div>
       </div>
-      <div className={`update-house ${show ? "" : "d-none"}`}>
-        <UpdateHouseForm house={data?.data as IHouse}/>
-      </div>
+        {show && <UpdateHouseForm house={data?.data as IHouse}/> }
     </div>
   );
 }

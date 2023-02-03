@@ -10,7 +10,7 @@ function Pagination(props: PaginationProps) {
     <div>
       <button
         className={`btn ${props.currentPage - 1 < 1 ? 'invisible' : ''}`}
-        onClick={() => dispatch(setPage(props.currentPage - 1))}
+        onClick={() => props.setPage(props.currentPage - 1)}
       >
         <ChevronLeft class="mini" />
       </button>

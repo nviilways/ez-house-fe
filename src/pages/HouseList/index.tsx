@@ -8,15 +8,15 @@ import Pagination from "../../component/Pagination";
 import Spinner from "../../component/Spinner";
 import Select from "../../component/Select";
 import SelectConfig from "../../interface/select";
-import { setLimit } from "../../store/slice/House/houseFilterSlice";
 import { useCookies } from "react-cookie";
 import HostFilter from "../../component/HostFilter";
 import { useState } from "react";
 import CreateIcon from "../../assets/icon/Create";
 import CreateHouseForm from "../../component/CreateHouseForm";
+import { setLimitHost, setPageHost } from "../../store/slice/House/houseHostSlice";
 
 function HouseList() {
-  const filter = useSelector((state: RootState) => state.filterHouse);
+  const filter = useSelector((state: RootState) => state.filterHost);
   const [cookies] = useCookies(["token"]);
 
   const [show, setShow] = useState<boolean>(false);
@@ -56,7 +56,7 @@ function HouseList() {
           name="limit"
           config={limitConfig}
           value={filter.limit}
-          handle={(e) => dispatch(setLimit(e.target.value))}
+          handle={(e) => dispatch(setLimitHost(e.target.value))}
         />
       </div>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
@@ -70,6 +70,7 @@ function HouseList() {
           totalPage={Math.ceil(
             (data?.data?.count as number) / (data?.data?.limit as number)
           )}
+          setPage={(page) => dispatch(setPageHost(page))}
         />
       </div>
       <hr />
@@ -79,9 +80,7 @@ function HouseList() {
           <button className="btn" onClick={() => setShow(!show)}><CreateIcon class="mini"/></button>
         </div>
       </div>
-      <div className={`create-house ${show ? "" : "d-none"}`}>
-        <CreateHouseForm />
-      </div>
+      {show && <CreateHouseForm />}
     </div>
   );
 }
