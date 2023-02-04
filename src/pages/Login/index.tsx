@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Favicon from "../../assets/icon/Favicon";
 import Button from "../../component/Button";
@@ -14,6 +14,9 @@ function Login() {
   const [loginUser, { data, isSuccess, isError }] = useLoginMutation();
 
   const navigate = useNavigate();
+  const location = useLocation()
+
+  let from = location.state?.from?.pathname || "/";
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -39,13 +42,13 @@ function Login() {
         path: "/",
         maxAge: 5 * 3600,
       });
-      navigate("/");
+      navigate(from, {replace: true});
     }
 
     if (isError) {
       toast.error("Invalid Credential");
     }
-  }, [data?.data?.token, isSuccess, isError, navigate, setCookies]);
+  }, [data?.data?.token, isSuccess, isError, navigate, setCookies, from]);
 
   return (
     <div className="container login d-flex align-items-center justify-content-evenly">
