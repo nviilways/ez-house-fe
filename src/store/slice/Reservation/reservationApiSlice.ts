@@ -18,7 +18,7 @@ export const reserveApiSlice = apiSlice.injectEndpoints({
           Authorization: `Bearer ${data.token}`,
         },
       }),
-      invalidatesTags: [{ type: "Reservation", id: "LIST" }],
+      invalidatesTags: [{ type: "Reservation", id: "LIST" }, {type: "House", id: "LIST"}],
     }),
     getReservationById: builder.query<
       StandardResponse<IReservation>,

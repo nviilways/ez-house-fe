@@ -4,6 +4,7 @@ import filterReducer from "./slice/House/houseFilterSlice";
 import filterHostReducer from "./slice/House/houseHostSlice";
 import userReducer from "./slice/User/userSlice";
 import filterTxReducer from "./slice/User/userTxFilSlice";
+import filterResReducer from "./slice/Reservation/reservationSlice"
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     userStore: userReducer,
     filterTx: filterTxReducer,
     filterHouse: filterReducer,
+    filterRes: filterResReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

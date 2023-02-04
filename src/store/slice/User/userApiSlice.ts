@@ -7,6 +7,7 @@ import StandardResponse from "../../../interface/response";
 import ITransaction from "../../../interface/transaction";
 import { apiSlice } from "../api/apiSlice";
 import { IHouseFilter } from "../House/houseFilterSlice";
+import { ResFilter } from "../Reservation/reservationSlice";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -55,12 +56,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Transaction"],
     }),
-    getHistory: builder.query<StandardResponse<IReservation[]>, string>({
-      query: (token) => ({
-        url: `/reservations/history`,
+    getHistory: builder.query<StandardResponse<Pagination<IReservation[]>>, {token: string, filter: ResFilter}>({
+      query: (data) => ({
+        url: `/reservations/history?page=${data.filter.page}&limit=${data.filter.limit}`,
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${data.token}`,
         },
       }),
       providesTags: [{ type: "Reservation", id: "LIST" }],

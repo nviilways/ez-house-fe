@@ -11,7 +11,7 @@ const initialState: TxFilter = {
 };
 
 export const filterTx = createSlice({
-  name: "filterHouseHost",
+  name: "filterTx",
   initialState,
   reducers: {
     setPageTx: (state, action) => {
