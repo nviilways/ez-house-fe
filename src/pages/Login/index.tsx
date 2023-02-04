@@ -51,7 +51,7 @@ function Login() {
   }, [data?.data?.token, isSuccess, isError, navigate, setCookies, from]);
 
   return (
-    <div className="container login d-flex align-items-center justify-content-evenly">
+    <div className="container login d-flex flex-column flex-md-row align-items-center justify-content-evenly">
       <div className="logo pt-5">
         <span className="me-3 fs-1 fst-italic">E</span>
         <Favicon class="large" />

@@ -76,7 +76,7 @@ function Register() {
   });
 
   return (
-    <div className="container h-100 d-flex justify-content-evenly align-items-center">
+    <div className="container d-flex flex-column flex-md-row justify-content-evenly align-items-center">
       <div className="logo pt-5">
         <span className="me-3 fs-1 fst-italic">E</span>
         <Favicon class="large" />
