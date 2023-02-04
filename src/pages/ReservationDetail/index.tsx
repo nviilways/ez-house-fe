@@ -69,7 +69,8 @@ function ReservationDetail() {
 
   const rangeDate =
     (new Date(data?.data?.check_out_date as unknown as string).getTime() -
-    new Date(data?.data?.check_in_date as unknown as string).getTime()) / (1000 * 60 * 60 * 24);
+      new Date(data?.data?.check_in_date as unknown as string).getTime()) /
+    (1000 * 60 * 60 * 24);
 
   return (
     <div className="container reserve-detail d-flex flex-column flex-md-row justify-content-around align-items-center">
@@ -81,7 +82,7 @@ function ReservationDetail() {
           className="rounded medium-image"
         />
       </div>
-      <div className="pricing-detail">
+      <div className="pricing-detail pt-5 mt-4">
         <h3>Reservation Details</h3>
         <hr />
         <h4>Book Details</h4>
@@ -92,6 +93,11 @@ function ReservationDetail() {
         </p>
         <p>Reserving for: {rangeDate} day(s)</p>
         <hr />
+        <div className={data?.data?.pickup ? "" : "d-none"}>
+          <h4>Pickup Details</h4>
+          <p>Pickup Status: {data?.data?.pickup ? data?.data?.pickup.pickup_status.status : ""}</p>
+          <hr />
+        </div>
         <h4 className="mb-4">Pricing Details</h4>
         <p>
           Price: {BalanceFormatter(data?.data?.house.price as number)} x{" "}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Favicon from "../../assets/icon/Favicon";
@@ -15,6 +16,7 @@ function Register() {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [city, setCity] = useState<number>(1);
+  const [cookies] = useCookies(['token'])
 
   const { data, isLoading, isError } = useGetAllCityQuery();
   const [registerUser, { isSuccess: registerSuccess, isError: registerError }] =
@@ -58,6 +60,11 @@ function Register() {
       toast.success("Register Success");
       navigate("/login");
     }
+
+    if (cookies.token) {
+      navigate("/");
+    }
+
     if (registerError) {
       toast.error("Failed to register");
     }

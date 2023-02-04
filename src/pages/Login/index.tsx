@@ -10,11 +10,11 @@ import { useLoginMutation } from "../../store/slice/User/userApiSlice";
 function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [, setCookies] = useCookies(["token"]);
+  const [cookies, setCookies] = useCookies(["token"]);
   const [loginUser, { data, isSuccess, isError }] = useLoginMutation();
 
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   let from = location.state?.from?.pathname || "/";
 
@@ -42,13 +42,17 @@ function Login() {
         path: "/",
         maxAge: 5 * 3600,
       });
-      navigate(from, {replace: true});
+      navigate(from, { replace: true });
+    }
+
+    if (cookies.token) {
+      navigate("/");
     }
 
     if (isError) {
       toast.error("Invalid Credential");
     }
-  }, [data?.data?.token, isSuccess, isError, navigate, setCookies, from]);
+  }, [data?.data?.token, isSuccess, isError, navigate, setCookies, from, cookies]);
 
   return (
     <div className="container login d-flex flex-column flex-md-row align-items-center justify-content-evenly">
