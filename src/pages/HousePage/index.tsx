@@ -35,7 +35,7 @@ function HousePage() {
   }
 
   return (
-    <div className="container house-box pt-3 d-flex flex-column gap-3">
+    <div className="container main-layout house-box pt-3 d-flex flex-column gap-3">
       <HouseTitle house={data?.data as IHouse} />
       <HouseImage photos={data?.data?.house_photos} />
       <hr />

@@ -12,6 +12,7 @@ import {
   setAuth,
   setUserStateAll,
 } from "../../store/slice/User/userSlice";
+import Footer from "../Footer";
 import "./navbar.scss";
 
 function NavBar() {
@@ -68,13 +69,21 @@ function NavBar() {
             <li className={`nav-item ${userStore.id !== 0 ? "me-5" : ""}`}>
               <NavLink to="/">Home</NavLink>
             </li>
-            <li className={`nav-item me-5 ${userStore.id === 0 ? "d-none" : ""}`}>
+            <li
+              className={`nav-item me-5 ${userStore.id === 0 ? "d-none" : ""}`}
+            >
               <NavLink to="/top-up">Top Up</NavLink>
             </li>
-            <li className={`nav-item me-5 ${userStore.id === 0 ? "d-none" : ""}`}>
+            <li
+              className={`nav-item me-5 ${userStore.id === 0 ? "d-none" : ""}`}
+            >
               <NavLink to="/reservation">Your Booking</NavLink>
             </li>
-            <li className={`nav-item me-4 ${userStore.role_id === 3 ? "" : "d-none"}`}>
+            <li
+              className={`nav-item me-4 ${
+                userStore.role_id === 3 ? "" : "d-none"
+              }`}
+            >
               <NavLink
                 className={`${userStore.role_id === 3 ? "" : "d-none"}`}
                 to="/houses"
@@ -82,12 +91,12 @@ function NavBar() {
                 House Listing
               </NavLink>
             </li>
-            <li className={`nav-item ms-3 me-3 ${userStore.id !== 0 ? "d-none" : ""}`}>
-              <NavLink
-                to="/login"
-              >
-                Login
-              </NavLink>
+            <li
+              className={`nav-item ms-3 me-3 ${
+                userStore.id !== 0 ? "d-none" : ""
+              }`}
+            >
+              <NavLink to="/login">Login</NavLink>
             </li>
             <li className="nav-item me-3 dropdown">
               <NavLink
@@ -126,7 +135,10 @@ function NavBar() {
           </ul>
         </div>
       </nav>
-      <Outlet />
+      <div className="main-layout">
+        <Outlet />
+      </div>
+      <Footer />
     </div>
   );
 }

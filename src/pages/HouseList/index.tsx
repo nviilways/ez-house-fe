@@ -48,7 +48,7 @@ function HouseList() {
   ];
 
   return (
-    <div className="container mt-5">
+    <div className="container main-layout mt-5">
       <HostFilter />
       <div className="d-flex justify-content-start mb-4">
         <Select
