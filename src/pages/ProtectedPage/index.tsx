@@ -1,8 +1,10 @@
+import jwtDecode from "jwt-decode";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RootState } from "../../store";
+import { Claim } from "../../store/slice/User/userSlice";
 
 function ProtectedPage() {
   const [cookies] = useCookies(["token"]);
@@ -20,9 +22,10 @@ function ProtectedPage() {
 }
 
 export function ProtectedPageHost() {
-  const userStore = useSelector((state: RootState) => state.userStore);
+  const [cookies] = useCookies(['token'])
+  const decodeJwt = jwtDecode(cookies.token) as Claim
 
-  if (userStore.role_id !== 3) {
+  if (decodeJwt.role_id !== 3) {
     toast.info("You are not allowed to access this page");
     return <Navigate to="/" replace />;
   }

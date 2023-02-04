@@ -8,26 +8,26 @@ import { useDeleteHouseMutation } from "../../store/slice/House/houseApiSlice";
 
 function DeleteHouse(props: HouseProps) {
   const [cookies] = useCookies(["token"]);
-  const [deleteHouse, { isError, isSuccess }] = useDeleteHouseMutation();
+  const [deleteHouse, { isSuccess }] = useDeleteHouseMutation();
   const navigate = useNavigate();
 
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (window.confirm("Are you sure want to delete this house ?")) {
-      await deleteHouse({ token: cookies.token, id: props.house.id });
+      await deleteHouse({ token: cookies.token, id: props.house.id })
+      .unwrap()
+      .catch((error) => {
+        toast.error(error.data.message)
+      });
     }
   };
 
   useEffect(() => {
-    if (isError) {
-      toast.error("Failed to delete this house");
-    }
-
     if (isSuccess) {
       toast.success("House successfully deleted");
       navigate("/");
     }
-  }, [isError, isSuccess, navigate]);
+  }, [isSuccess, navigate]);
 
   return (
     <div>

@@ -14,6 +14,7 @@ import { useState } from "react";
 import CreateIcon from "../../assets/icon/Create";
 import CreateHouseForm from "../../component/CreateHouseForm";
 import { setLimitHost, setPageHost } from "../../store/slice/House/houseHostSlice";
+import "./houselist.scss"
 
 function HouseList() {
   const filter = useSelector((state: RootState) => state.filterHost);
@@ -48,7 +49,7 @@ function HouseList() {
   ];
 
   return (
-    <div className="container main-layout mt-5">
+    <div className="container house-list main-layout mt-5">
       <HostFilter />
       <div className="d-flex justify-content-start mb-4">
         <Select

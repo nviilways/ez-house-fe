@@ -38,7 +38,7 @@ function NavBar() {
     await logout(cookies.token);
     removeCookies("token");
     dispatch(setUserStateAll(0));
-    navigate("login");
+    navigate("/");
   };
 
   return (
