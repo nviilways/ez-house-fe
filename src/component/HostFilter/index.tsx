@@ -3,13 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useDebounce from "../../hooks/useDebounce";
 import SelectConfig from "../../interface/select";
 import { RootState } from "../../store";
-import {
-  setGuest,
-  setName,
-  setCity,
-  setCol,
-  setBy,
-} from "../../store/slice/House/houseFilterSlice";
+import { setByHost, setCityHost, setColHost, setGuestHost, setNameHost } from "../../store/slice/House/houseHostSlice";
 import Input from "../Input";
 import Select from "../Select";
 
@@ -21,25 +15,25 @@ function HostFilter() {
   const debouncedCity = useDebounce(filterCity, 1000)
 
   const { guest, sortCol, sortBy } = useSelector(
-    (state: RootState) => state.filterHouse
+    (state: RootState) => state.filterHost
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
     if(debouncedName) {
-      dispatch(setName(debouncedName))
+      dispatch(setNameHost(debouncedName))
     }
 
     if(filterName === ''){
-      dispatch(setName(filterName))
+      dispatch(setNameHost(filterName))
     }
 
     if(debouncedCity) {
-      dispatch(setCity(debouncedCity))
+      dispatch(setCityHost(debouncedCity))
     }
 
     if(filterCity === '') {
-      dispatch(setCity(filterCity))
+      dispatch(setCityHost(filterCity))
     }
 
   }, [debouncedName, debouncedCity, filterName, filterCity, dispatch])
@@ -79,7 +73,7 @@ function HostFilter() {
         config={guestConfig}
         value={guest}
         handle={(e: React.ChangeEvent<HTMLInputElement>) =>
-          dispatch(setGuest(e.target.value))
+          dispatch(setGuestHost(e.target.value))
         }
       />
       <Input
@@ -104,7 +98,7 @@ function HostFilter() {
         config={sortColumnConfig}
         value={sortCol}
         handle={(e: React.ChangeEvent<HTMLInputElement>) =>
-          dispatch(setCol(e.target.value))
+          dispatch(setColHost(e.target.value))
         }
       />
       <Select
@@ -113,7 +107,7 @@ function HostFilter() {
         config={sortByConfig}
         value={sortBy}
         handle={(e: React.ChangeEvent<HTMLInputElement>) =>
-          dispatch(setBy(e.target.value))
+          dispatch(setByHost(e.target.value))
         }
       />
     </div>

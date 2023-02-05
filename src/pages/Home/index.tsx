@@ -8,6 +8,7 @@ import Spinner from "../../component/Spinner";
 import Select from "../../component/Select";
 import SelectConfig from "../../interface/select";
 import { setLimit, setPage } from "../../store/slice/House/houseFilterSlice";
+import NotFound from "../../component/NotFound";
 
 function HouseList() {
 
@@ -46,6 +47,7 @@ function HouseList() {
             <Select label="Items per page" name="limit" config={limitConfig} value={filter.limit} handle={(e) => dispatch(setLimit(e.target.value))} />
         </div>
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+            {data?.data?.count === 0 && <NotFound />}
             {data?.data?.data?.map((house) => (
                 <HouseCard key={house.id} house={house} />
             ))}

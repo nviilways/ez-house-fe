@@ -15,6 +15,7 @@ import CreateIcon from "../../assets/icon/Create";
 import CreateHouseForm from "../../component/CreateHouseForm";
 import { setLimitHost, setPageHost } from "../../store/slice/House/houseHostSlice";
 import "./houselist.scss"
+import NotFound from "../../component/NotFound";
 
 function HouseList() {
   const filter = useSelector((state: RootState) => state.filterHost);
@@ -61,6 +62,7 @@ function HouseList() {
         />
       </div>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+        {data?.data?.count === 0 && <NotFound />}
         {data?.data?.data?.map((house) => (
           <HouseCard key={house.id} house={house} />
         ))}
