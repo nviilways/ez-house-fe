@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../component/Button";
 import Input from "../../component/Input";
+import NotFound from "../../component/NotFound";
 import Pagination from "../../component/Pagination";
 import Select from "../../component/Select";
 import Spinner from "../../component/Spinner";
@@ -265,6 +266,7 @@ function MyProfile() {
                       <th scope="col">Date</th>
                     </tr>
                   </thead>
+                  {txData?.data?.count === 0 && <NotFound />}
                   <tbody>
                     {txData?.data?.data?.map((tx) => (
                       <tr key={tx.id}>
