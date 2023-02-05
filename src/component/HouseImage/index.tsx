@@ -4,7 +4,7 @@ import "./image.scss"
 function HouseImage(props: ImageProps) {
 
     return(
-        <div className={`d-flex flex-column flex-lg-row justify-content-${props.photos?.length as number >= 4 ? "between" : "start"}`}>
+        <div className={`d-flex flex-column flex-lg-row justify-content-${props.photos?.length as number > 4 ? "between" : "start"}`}>
             <div>
                 <img className="medium-image me-2" src={props.photos?.[0].photo_url} alt={props.photos?.[0].photo_url} />
             </div>
