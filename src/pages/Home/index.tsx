@@ -41,7 +41,7 @@ function HouseList() {
     ]
 
     return (
-     <div className="container mt-5">
+     <div className="container main-layout mt-5">
         <HouseFilter />
         <div className="d-flex justify-content-start mb-4">
             <Select label="Items per page" name="limit" config={limitConfig} value={filter.limit} handle={(e) => dispatch(setLimit(e.target.value))} />

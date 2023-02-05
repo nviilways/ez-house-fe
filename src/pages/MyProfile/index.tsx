@@ -40,7 +40,10 @@ function MyProfile() {
     isError: profileError,
     isLoading: profileLoading,
   } = useMeQuery(cookies.token);
-  const { data: txData } = useGetTransactionQuery({token: cookies.token, filter: filter});
+  const { data: txData } = useGetTransactionQuery({
+    token: cookies.token,
+    filter: filter,
+  });
   const {
     data: cityData,
     isLoading: cityLoading,
@@ -266,7 +269,6 @@ function MyProfile() {
                       <th scope="col">Date</th>
                     </tr>
                   </thead>
-                  {txData?.data?.count === 0 && <NotFound />}
                   <tbody>
                     {txData?.data?.data?.map((tx) => (
                       <tr key={tx.id}>
@@ -277,6 +279,7 @@ function MyProfile() {
                     ))}
                   </tbody>
                 </table>
+                {txData?.data?.count === 0 && <NotFound />}
               </div>
               <div className="d-flex justify-content-center align-items-center mt-5">
                 <Pagination
