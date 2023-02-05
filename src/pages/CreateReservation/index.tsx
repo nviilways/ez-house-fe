@@ -25,6 +25,10 @@ function CreateReservation() {
   const navigate = useNavigate()
   const id = parseInt(param.id as string);
 
+  if(isNaN(id)) {
+    navigate('/')
+  }
+
   const { dateIn, dateOut } = useSelector(
     (state: RootState) => state.filterHouse
   );

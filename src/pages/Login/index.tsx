@@ -6,6 +6,7 @@ import Favicon from "../../assets/icon/Favicon";
 import Button from "../../component/Button";
 import Input from "../../component/Input";
 import { useLoginMutation } from "../../store/slice/User/userApiSlice";
+import "./login.scss"
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -55,7 +56,7 @@ function Login() {
   }, [data?.data?.token, isSuccess, isError, navigate, setCookies, from, cookies]);
 
   return (
-    <div className="container login d-flex flex-column flex-md-row align-items-center justify-content-evenly">
+    <div className="container lr-auth d-flex flex-column flex-md-row align-items-center justify-content-evenly">
       <div className="logo pt-5">
         <span className="me-3 fs-1 fst-italic">E</span>
         <Favicon class="large" />
