@@ -124,7 +124,7 @@ function NavBar() {
                     className={`dropdown-item ${
                       userStore.id !== 0 ? "" : "d-none"
                     }`}
-                    to="/logout"
+                    to="/"
                     onClick={handleLogout}
                   >
                     Logout

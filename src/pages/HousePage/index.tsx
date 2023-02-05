@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UpdateIcon from "../../assets/icon/Update";
 import DeleteHouse from "../../component/DeleteHouse";
 import HouseImage from "../../component/HouseImage";
@@ -21,9 +21,14 @@ function HousePage() {
   const userStore = useSelector((state:RootState) => state.userStore)
 
   const [show, setShow] = useState<boolean>(false);
+  const navigate = useNavigate()
 
   const param = useParams();
   const id = parseInt(param.id as string);
+  if(isNaN(id)) {
+    navigate("/")
+  }
+  
   const { data, isLoading, isError } = useGetHouseByIdQuery(id);
 
   if (isLoading) {
